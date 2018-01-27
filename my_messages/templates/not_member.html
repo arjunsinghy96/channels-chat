@@ -1,0 +1,8 @@
+{% extends 'home.html' %}
+
+{% block chat %}
+<h3 style='align: center'>NOT A MEMBER</h3>
+<p>You are trying to access a group of which you are not a member</p>
+<br>
+<a href="{% url 'leagues' %}">Leagues Page</a>
+{% endblock %}

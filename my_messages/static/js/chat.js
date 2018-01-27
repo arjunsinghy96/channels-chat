@@ -17,7 +17,7 @@ socket.onmessage = function(msg) {
 
 if(socket.readyState == socket.OPEN) socket.onopen();
 
-$('form').on('submit', function(e) {
+$('#id_form_msg_box').on('submit', function(e) {
     var msg=$('#id_msg_box').val();
     socket.send(msg);
     return false;

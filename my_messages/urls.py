@@ -7,4 +7,6 @@ urlpatterns = [
         path('login/', views.LoginView.as_view(), name='login'),
         path('signup/', views.SignUpView.as_view(), name='signup'),
         path('leagues/', views.LeagueView.as_view(), name='leagues'),
+        path('invites/', views.InviteView.as_view(), name='invites'),
+        path('accept/<invite_id>', views.accept_invite, name='accept'),
         ]

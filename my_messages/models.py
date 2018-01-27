@@ -6,18 +6,46 @@ from channels import Group
 
 import json
 
+
+def sentient_user():
+    return User.objects.get_or_create(username='default_user')[0]
+
 class League(models.Model):
     """
     Corresponds to room/group
     """
     name = models.CharField(max_length=50, unique=True)
+    members = models.ManyToManyField(User,
+                                     through='Membership',
+                                     related_name='member_of')
 
     def __str__(self):
         return self.name
 
+    def add_member(self, user):
+        mem, created = Membership.objects.get_or_create(league=self,
+                                                        user=user)
+
+
+class Membership(models.Model):
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    joined_at = models.DateField(auto_now_add=True)
+
+    def __str__(self):
+        return '{} in {}'.format(self.user, self.league)
+
+
+class Invite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    league = models.ForeignKey(League, on_delete=models.CASCADE)
+
+
 class Message(models.Model):
     league = models.ForeignKey(League, related_name='messages', on_delete=models.CASCADE)
-    handle = models.TextField()
+    sender = models.ForeignKey(User,
+                               default=sentient_user().pk,
+                               on_delete=models.SET(sentient_user))
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
 
@@ -31,7 +59,7 @@ class Message(models.Model):
         return json string
         """
         rep = {
-                'handle': self.handle,
+                'handle': self.sender.username,
                 'message': self.message,
                 'timestamp': self.timestamp.strftime('%b %m %Y, %H:%M %p'),
             }

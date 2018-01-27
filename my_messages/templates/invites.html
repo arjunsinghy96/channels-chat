@@ -1,0 +1,10 @@
+{% extends 'home.html' %}
+
+{% block chat %}
+<h3>You are invited to :</h3>
+<ul>
+    {% for invite in invites %}
+    <li>{{ invite.league.name }}<a href="{% url 'accept' invite_id=invite.id %}">accept</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}

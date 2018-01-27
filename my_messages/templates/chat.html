@@ -2,6 +2,12 @@
 
 {% load staticfiles %}
 {% block chat %}
+<form method='post' action='/invites/'>
+    {% csrf_token %}
+    <input type='hidden' value={{ league_name }} name='league_name'/>
+    <input type='text' name='username' placeholder='Usename to invite'/>
+    <input type='submit' value='Invite'/>
+</form>
 <p id='username'>{{ username }}</p>
 <form id='id_form_msg_box'>
     <input id='id_msg_box' type='text' placeholder='Type your message'/>
@@ -9,7 +15,7 @@
 <table id='id_chat'>
     {% for message in messages %}
     <tr>
-        <td>{{ message.handle }}</td>
+        <td>{{ message.sender.username }}</td>
         <td>{{ message.message }}</td>
         <td>{{ message.timestamp }}</td>
     </tr>
