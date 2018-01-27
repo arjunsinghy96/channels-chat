@@ -1,34 +1,31 @@
 import json
 from urllib.parse import parse_qs
 
+from django.contrib.auth.models import User
 from channels import Group
-from channels.sessions import channel_session
+from channels.sessions import http_session
+from channels.auth import channel_session_user, channel_session_user_from_http
 
 from my_messages.models import League, Message
 
-@channel_session
+@channel_session_user
 def ws_receive(message):
     room_name = message.content['path'].strip('/').replace('/', '-')
-    print(message)
     league = League.objects.get(name=room_name)
     Message.objects.create(
         league=league,
-        handle=message.channel_session['username'],
+        handle=message.user.username,
         message=message.content['text']
         )
 
-@channel_session
+@channel_session_user_from_http
 def ws_add(message):
+    print(message.user)
     room_name = message.content['path'].strip('/').replace('/', '-')
     message.reply_channel.send({'accept': True})
-    params = parse_qs(message.content['query_string'])
-    if b'username' in params:
-        message.channel_session['username'] = params[b'username'][0].decode('utf8')
-        Group(room_name).add(message.reply_channel)
-    else:
-        message.reply_channel.send({'close': True})
+    Group(room_name).add(message.reply_channel)
 
-@channel_session
+@channel_session_user
 def ws_disconnect(message):
     room_name = message.content['path'].strip('/').replace('/', '-')
     Group(room_name).discard(message.reply_channel)
