@@ -35,7 +35,7 @@ def chat_page(request, room):
 @login_required(login_url='/login')
 def accept_invite(request, invite_id):
     invite = Invite.objects.get(pk=invite_id)
-    invite.league.add_member(invite.user)
+    invite.league.members.add(invite.user)
     invite.delete()
     return redirect('leagues', permanent=True)
 
