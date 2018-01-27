@@ -51,7 +51,7 @@ class Message(models.Model):
 
     def __str__(self):
         return '<Message("{}") by {} in {}>'.format(self.message,
-                                                    self.handle,
+                                                    self.sender.username,
                                                     self.league.name)
 
     def as_json(self):
