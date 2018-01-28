@@ -1,4 +1,4 @@
-# Djanog Channels Chat
+# Django Channels Chat
 
 A simple chat server written in django using django-channels for websocket integration.
 
