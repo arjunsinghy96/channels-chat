@@ -10,12 +10,7 @@ from my_messages.models import League, Invite, Message
 
 @login_required(login_url='/login')
 def home_page(request):
-    if request.method == 'POST':
-        room = request.POST['room']
-        username = request.POST['username']
-        request.session['username'] = username
-        return redirect('chat', permanent=True, room=room)
-    return render(request, 'home.html')
+    return redirect('leagues')
 
 @login_required(login_url='/login')
 def chat_page(request, room):
