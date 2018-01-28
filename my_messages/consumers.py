@@ -1,19 +1,42 @@
+from channels.generic.websockets import WebsocketConsumer
 from channels import Group
-from channels.sessions import channel_session_user_from_http
 
-receivers = []
+from my_messages.models import League, Message
 
-@channel_session_user_from_http
-def ws_add(message):
-    message.reply_channel.send({'accept': True})
-    print('a new client has connected and if this does not print ..')
-    room = message.content['path'].strip('/')
-    Group('chat-%s'%room).add(message.reply_channel)
-    print(message.content)
+class websockets(WebsocketConsumer):
 
-@channel_session_user_from_http
-def ws_receive(message):
-    room = message.content['path'].strip('/')
-    Group('chat-%s'%room).send({
-        'text': message.content['text']}
-        )
+    http_user = True
+
+    def connection_groups(self, **kwargs):
+        """
+        Returns the list of groups a connection is to be added.
+        """
+        return ['all_notify'] # a common group for every websocket
+
+    def connect(self, message, **kwargs):
+        """
+        Run when a new websocket is connected
+        """
+        self.room = self.path.strip('/').split('/')[-1]
+        Group(self.room).add(message.reply_channel)
+        message.reply_channel.send({'accept': True})
+
+    def receive(self, text=None, bytes=None, **kwargs):
+        """
+        Actions on receiving a message on websocket.
+        Save the Message with appropriate League and message
+        """
+        self.room = self.path.strip('/').split('/')[-1]
+        league = League.objects.get(name=self.room)
+        m = Message.objects.create(
+                league=league,
+                sender=self.message.user,
+                message=text,
+                )
+
+    def disconnect(self, message, **kwargs):
+        """
+        Run when a socket is disconnected
+        """
+        self.room = self.path.strip('/').split('/')[-1]
+        Group(self.room).discard(message.reply_channel)
