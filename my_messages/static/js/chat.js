@@ -1,5 +1,4 @@
-var username = $('#username').text()
-var addr = 'ws://' + window.location.host + window.location.pathname + '?username=' + username;
+var addr = 'ws://' + window.location.host + window.location.pathname;
 
 console.log(addr)
 var socket = new WebSocket(addr);
@@ -20,5 +19,6 @@ if(socket.readyState == socket.OPEN) socket.onopen();
 $('#id_form_msg_box').on('submit', function(e) {
     var msg=$('#id_msg_box').val();
     socket.send(msg);
+    $('#id_msg_box').val('');
     return false;
 });

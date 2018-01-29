@@ -1,6 +1,6 @@
-{% extends 'home.html' %}
+{% extends 'generic/base.html' %}
 
-{% block chat %}
+{% block content %}
 <form method='post'>
     {% csrf_token %}
     {{ form.as_p }}

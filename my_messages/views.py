@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.models import User
 
 from my_messages.forms import LoginForm, SignUpForm, LeagueForm
-from my_messages.models import League, Invite, Message
+from my_messages.models import League, Invite, Message, Membership
 
 @login_required(login_url='/login')
 def home_page(request):
@@ -30,7 +30,8 @@ def chat_page(request, room):
 @login_required(login_url='/login')
 def accept_invite(request, invite_id):
     invite = Invite.objects.get(pk=invite_id)
-    invite.league.members.add(invite.user)
+    Membership.objects.update_or_create(league=invite.league,
+                                        user=invite.user)
     invite.delete()
     return redirect('leagues', permanent=True)
 
@@ -74,7 +75,8 @@ class LeagueView(View):
             room = request.POST['name']
             league, created = League.objects.get_or_create(name=room)
             if created:
-                league.add_member(request.user)
+                Membership.objects.create(league=league,
+                                          user=request.user)
             return redirect('chat', permanent=True, room=room)
 
 class InviteView(View):

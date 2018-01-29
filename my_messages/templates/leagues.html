@@ -1,19 +1,20 @@
-{% extends 'home.html' %}
+{% extends 'generic/base.html' %}
 
-{% block chat %}
+{% block content %}
     <h5> Create new League: </h5>
     <form method='post'>
         {% csrf_token %}
-        {{ form.as_p }}
-        <input type='submit' value='Create' />
+        {% for field in form %}
+        {{ field.label }}
+        {{ field }}
+        {% endfor %}
+        <input class='btn btn-outline-success' type='submit' value='Create' />
     </form>
 
     <h5> Your Leagues </h5>
-    <ul>
-    {% for league in leagues %}
-    <li>
-        <a href="{% url 'chat' room=league.name %}">{{league.name}}</a>
-    </li>
-    {% endfor %}
-    </ul>
+    <div class='list-group'>
+        {% for league in leagues %}
+        <a class='btn list-group-item-action list-group-item-action' href="{% url 'chat' room=league.name %}">{{league.name}}</a>
+        {% endfor %}
+    </div>
 {% endblock %}
