@@ -8,11 +8,11 @@ from django.contrib.auth.models import User
 from my_messages.forms import LoginForm, SignUpForm, LeagueForm
 from my_messages.models import League, Invite, Message, Membership
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def home_page(request):
     return redirect('leagues')
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def chat_page(request, room):
     league, created  = League.objects.get_or_create(name=room)
     members = league.members.all()
@@ -27,7 +27,7 @@ def chat_page(request, room):
             }
         )
 
-@login_required(login_url='/login')
+@login_required(login_url='/accounts/login')
 def accept_invite(request, invite_id):
     invite = Invite.objects.get(pk=invite_id)
     Membership.objects.update_or_create(league=invite.league,
@@ -62,13 +62,13 @@ class SignUpView(View):
 
 class LeagueView(View):
 
-    @method_decorator(login_required(login_url='/login'))
+    @method_decorator(login_required(login_url='/accounts/login'))
     def get(self, request):
         leagues = request.user.member_of.all()
         form = LeagueForm()
         return render(request, 'leagues.html', {'leagues': leagues, 'form': form})
 
-    @method_decorator(login_required(login_url='/login'))
+    @method_decorator(login_required(login_url='/accounts/login'))
     def post(self, request):
         form = LeagueForm(request.POST)
         if form.is_valid():
@@ -81,12 +81,12 @@ class LeagueView(View):
 
 class InviteView(View):
 
-    @method_decorator(login_required(login_url='/login'))
+    @method_decorator(login_required(login_url='/accounts/login'))
     def get(self, request):
         invites = request.user.invite_set.all()
         return render(request, 'invites.html', {'invites': invites})
 
-    @method_decorator(login_required(login_url='/login'))
+    @method_decorator(login_required(login_url='/accounts/login'))
     def post(self, request):
         username = request.POST['username']
         invited = User.objects.get(username=username)
