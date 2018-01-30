@@ -18,7 +18,7 @@ def chat_page(request, room):
     members = league.members.all()
     if request.user not in members:
         return render(request, 'not_member.html')
-    messages = league.messages.all().order_by('-timestamp')
+    messages = league.messages.all().order_by('timestamp')
     return render(request, 'chat.html',
             {
                 'username': request.user.username,
