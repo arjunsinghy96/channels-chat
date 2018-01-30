@@ -17,19 +17,28 @@
 
 <form method="post" action="{% url 'login' %}">
 {% csrf_token %}
-<div>
-    <td> {{ form.username.label_tag }}</td>
-    <td> {{ form.username }}</td>
-</div>
-<div>
-    <td> {{ form.password.label_tag }}</td>
-    <td> {{ form.password }}</td>
-</div>
-<div>
-    <input type="submit" value="login" />
-    <input type="hidden" name="next" value="{{ next }}" />
+<div class='row'>
+    <div class='col s12 m6 offset-m3'>
+        {% for field in form %}
+        <div class='row margin'>
+            <div class='input-field col s12'>
+                {{ field }}
+                {{ field.label_tag }}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="row">
+            <div class='col s12'>
+                <button class='btn col s4 offset-s4 waves-effect waves-light' type="submit">Login</button>
+                <input type="hidden" name="next" value="{{ next }}" />
+            </div>
+            <div class='col s12'>
+                <p class='center'><a href="{% url 'password_reset' %}">Lost password?</a></p>
+            </div>
+        </div>
+    </div>
 </div>
 
-<p><a href="{% url 'password_reset' %}">Lost password?</a></p>
 
 {% endblock %}

@@ -1,5 +1,33 @@
-.sidebar-nav {
-    margin-top: 20px;
-    padding: 0;
-    list-style: none;
+.message-bubble{
+    border-radius: 5px;
+    margin: 3px;
+}
+
+.message-bubble:before{
+    content: '';
+    height: 0;
+    width: 0;
+    border-style: solid;
+}
+
+.message-bubble.other:before{
+    border-width: 0 15px 15px 0;
+    border-color: transparent #006064 transparent transparent;
+    position: absolute;
+    top: 0;
+    left: -12px;
+}
+
+.message-bubble.me:before{
+    border-width: 15px 15px 0 0;
+    border-color: #e0e0e0 transparent transparent transparent;
+    position: absolute;
+    top: 0;
+    right: -12px;
+}
+
+.chat-container{
+    height: 500px;
+    overflow: scroll;
+    padding: 50px;
 }

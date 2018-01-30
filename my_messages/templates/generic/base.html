@@ -5,43 +5,40 @@
     {% block title %}<title>Channels Chat</title>{% endblock %}
     <meta charset="utf-8">
     <meta name="viewpost" content="width=device-width, intial-scale=1">
-    <link rel="stylesheet" href="https://cdn.materialdesignicons.com/2.1.19/css/materialdesignicons.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!-- Add additional CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
-    <div class="container-fluid">
     <div class="row">
 
-        <div class="col-sm-2">
+        <div class="col s2">
         {% block sidebar %}
-        <ul class="sidebar-nav">
-            <li><a href="{% url 'home' %}">Home</a></li>
-            <li><a href="{% url 'leagues' %}">Leagues</a></li>
-            <li><a href="{% url 'invites' %}">Invites</a></li>
+        <div class='collection'>
+            <a class='collection-item' href="{% url 'home' %}">Home</a>
             {% if user.is_authenticated %}
-            <li><a href="{% url 'logout' %}">Logout</a></li>
+            <a class='collection-item' href="{% url 'leagues' %}">Leagues</a>
+            <a class='collection-item' href="{% url 'invites' %}">Invites</a>
+            <a class='collection-item' href="{% url 'logout' %}">Logout</a>
             {% endif %}
-        </ul>
+        </div>
         {% endblock %}
         </div>
 
-        <div class="col-sm-10">
+        <div class="col s10">
             {% block content %}
             {% endblock %}
         </div>
-
     </div>
+
     
     <!-- Load all javascript at the end -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="{% static 'js/materialize.min.js' %}"></script>
 
     {% block scripts %}
     <!-- block to add your own scripts -->

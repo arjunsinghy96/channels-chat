@@ -9,27 +9,52 @@
     <input type='text' name='username' placeholder='Usename to invite'/>
     <input type='submit' value='Invite'/>
 </form>
-<p id='username'>{{ username }}</p>
+<p id='id_username'>{{ username }}</p>
+
+<div class='container'>
 
 <form id='id_form_msg_box'>
-    <div class='input-group'>
-        <input class='form-control' id='id_msg_box' type='text' autocomplete='off'/>
-        <div class='input-group-append'>
-            <button class='input-group-text' type='submit'><i class='align-middle mdi mdi-send'></i></button>
+    <div class='input-field row'>
+        <input class='col s10' id='id_msg_box' type='text' autocomplete='off'/>
+        <div class='col s2'> 
+            <button type='submit' class='btn-floating waves-effect waves-light green'>
+                <i class='material-icons'>send</i>
+            </button>
         </div>
     </div>
 </form>
 
-<table id='id_chat'>
+<div class='chat-container'>
+
+<div id='id_chat' class='row'>
     {% for message in messages %}
-    <tr>
-        <td>{{ message.sender.username }}</td>
-        <td>{{ message.message }}</td>
-        <td>{{ message.timestamp }}</td>
-    </tr>
+    {% if message.sender == user %}
+        <div class='col s8 push-s4 z-depth-1 message-bubble me grey lighten-2'>
+    {% else %} 
+        <div class='col pull-s0 s8 z-depth-1 message-bubble other cyan darken-4 white-text'>
+    {% endif %}
+            <p><b> {{ message.sender.username }}</b><p>
+            <p> {{message.message }}</p>
+        </div>
     {% endfor %}
-</table>
+</div>
+</div>
+
+<!---
+<ul class='collection' id='id_chat'>
+    {% for message in messages %}
+    <li class='collection-item avatar'>
+        <i class='material-icons circle'>person</i>
+        <span class='title black-text'><b>{{ message.sender.username }}</b></span>
+        <p>{{ message.message }}</p>
+        <a class='secondary-content'>{{ message.timestamp }}</a>
+    </li>
+    {% endfor %}
+</ul>
+--->
+</div>
 {% endblock %}
+
 
 {% block scripts %}
 <script src={% static 'js/chat.js' %}></script>

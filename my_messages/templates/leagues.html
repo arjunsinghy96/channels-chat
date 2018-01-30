@@ -1,20 +1,30 @@
 {% extends 'generic/base.html' %}
 
-{% block content %}
-    <h5> Create new League: </h5>
-    <form method='post'>
-        {% csrf_token %}
-        {% for field in form %}
-        {{ field.label }}
-        {{ field }}
-        {% endfor %}
-        <input class='btn btn-outline-success' type='submit' value='Create' />
-    </form>
+{% block title %}<title>Leagues</title>{% endblock %}
 
-    <h5> Your Leagues </h5>
-    <div class='list-group'>
-        {% for league in leagues %}
-        <a class='btn list-group-item-action list-group-item-action' href="{% url 'chat' room=league.name %}">{{league.name}}</a>
-        {% endfor %}
+{% block content %}
+    <div class='row'>
+        <div class='col s12 m6 collection'>
+            <h5> Your Leagues </h5>
+            {% for league in leagues %}
+            <a class='collection-item' href="{% url 'chat' room=league.name %}">{{league.name}}</a>
+            {% endfor %}
+        </div>
+
+        <div class='col s12 m6'>
+            <h5> Create new League: </h5>
+            <form method='post'>
+                {% csrf_token %}
+                <div class='input-field'> 
+                    {% for field in form %}
+                        {{ field }}
+                        <label for='name'>League Name</label>
+                    {% endfor %}
+                </div>
+                <input class='btn z-depth-0 green col s4' type='submit' value='Create' />
+            </form>
+        </div>
+
     </div>
+
 {% endblock %}
