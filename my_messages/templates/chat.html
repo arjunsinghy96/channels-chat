@@ -6,7 +6,7 @@
 
 <!--- Make invite form appear as modal -->
 
-<a class='waves-effect waves-light btn-floating green modal-trigger right fixed' href='#invite-modal'>
+<a class='waves-effect waves-light btn-floating green modal-trigger' href='#invite-modal'>
     <i class='material-icons white-text'>add</i>
 </a>
 
@@ -27,52 +27,38 @@
 
 <!--- Invite modal ends here -->
 
-
+<!--- The actual chat window which will contain the chat stream -->
 
 <p id='id_username' hidden>{{ username }}</p>
 
-<div class='container'>
-
-<form id='id_form_msg_box'>
-    <div class='input-field row'>
-        <input class='col s10' id='id_msg_box' type='text' autocomplete='off'/>
-        <div class='col s2'> 
-            <button type='submit' class='btn-floating waves-effect waves-light green'>
-                <i class='material-icons'>send</i>
-            </button>
-        </div>
+<div id='chat-container' class='green lighten-2 chat-container'>
+    <div id='id_chat' class='row bottom'>
+        {% for message in messages %}
+        {% if message.sender == user %}
+            <div class='col s10 m8 push-s2 push-m4 z-depth-1 message-bubble me grey lighten-2'>
+        {% else %}
+            <div class='col s10 m8 pull-s0 z-depth-1 message-bubble other cyan darken-4 white-text'>
+        {% endif %}
+                <p><b> {{ message.sender.username }}</b><p>
+                <p>{{ message.message }} </p>
+           </div>
+        {% endfor %}
     </div>
-</form>
-
-<div class='chat-container'>
-
-<div id='id_chat' class='row'>
-    {% for message in messages %}
-    {% if message.sender == user %}
-        <div class='col s8 push-s4 z-depth-1 message-bubble me grey lighten-2'>
-    {% else %} 
-        <div class='col pull-s0 s8 z-depth-1 message-bubble other cyan darken-4 white-text'>
-    {% endif %}
-            <p><b> {{ message.sender.username }}</b><p>
-            <p> {{message.message }}</p>
-        </div>
-    {% endfor %}
-</div>
 </div>
 
-<!---
-<ul class='collection' id='id_chat'>
-    {% for message in messages %}
-    <li class='collection-item avatar'>
-        <i class='material-icons circle'>person</i>
-        <span class='title black-text'><b>{{ message.sender.username }}</b></span>
-        <p>{{ message.message }}</p>
-        <a class='secondary-content'>{{ message.timestamp }}</a>
-    </li>
-    {% endfor %}
-</ul>
---->
+<div id='id_chat_input' class='z-depth-4 white page-footer row'>
+    <div class='col s9'>
+        <form id='id_form_msg_box'>
+            <input id='id_msg_box' type='text' autocomplete='off'>
+        </form>
+    </div>
+    <div class='col s2 push-s1'>
+        <button type='submit' form='id_form_msg_box' class='btn-floating cyan darken-4 waves-effect waves-light'>
+            <i class='material-icons'>send</i>
+        </button>
+    </div>
 </div>
+
 {% endblock %}
 
 
