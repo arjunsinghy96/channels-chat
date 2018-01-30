@@ -3,13 +3,33 @@
 {% load staticfiles %}
 
 {% block content %}
-<form method='post' action='/invites/'>
-    {% csrf_token %}
-    <input type='hidden' value={{ league_name }} name='league_name'/>
-    <input type='text' name='username' placeholder='Usename to invite'/>
-    <input type='submit' value='Invite'/>
-</form>
-<p id='id_username'>{{ username }}</p>
+
+<!--- Make invite form appear as modal -->
+
+<a class='waves-effect waves-light btn-floating green modal-trigger right fixed' href='#invite-modal'>
+    <i class='material-icons white-text'>add</i>
+</a>
+
+<div id='invite-modal' class='modal'>
+    <div class='modal-content'>
+        <h4> Invite by Username</h4>
+        <form id='invite-form' method='post' action='/invites/'>
+            {% csrf_token %}
+            <input type='hidden' value={{league_name}} name='league_name'/>
+            <input type='text' name='username' placeholder='Username to invite'/>
+        </form>
+    </div>
+    <div class='modal-footer'>
+        <button class='btn-flat modal-action modal-close'>Cancel</button>
+        <input type='submit' form='invite-form' class='btn-flat modal-action modal-close' value='Invite' />
+    </div>
+</div>
+
+<!--- Invite modal ends here -->
+
+
+
+<p id='id_username' hidden>{{ username }}</p>
 
 <div class='container'>
 
@@ -57,5 +77,6 @@
 
 
 {% block scripts %}
+<script src="{% static 'js/script.js' %}"></script>
 <script src={% static 'js/chat.js' %}></script>
 {% endblock %}
