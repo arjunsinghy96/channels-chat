@@ -28,11 +28,12 @@ class websockets(WebsocketConsumer):
         """
         self.room = self.path.strip('/').split('/')[-1]
         league = League.objects.get(name=self.room)
-        m = Message.objects.create(
-                league=league,
-                sender=self.message.user,
-                message=text,
-                )
+        if text:
+            m = Message.objects.create(
+                    league=league,
+                    sender=self.message.user,
+                    message=text,
+                    )
 
     def disconnect(self, message, **kwargs):
         """
