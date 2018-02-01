@@ -8,9 +8,10 @@ class HomePageTest(TestCase):
         found = resolve('/')
         self.assertEqual(found.func, views.home_page)
 
-    def test_home_page_returns_correct_html(self):
-        response = self.client.get('/')
-        self.assertTemplateUsed(response, 'home.html')
+    def test_home_page_redirects_to_login(self):
+        response = self.client.get('/', follow=True)
+        self.assertRedirects(response, '/accounts/login/?next=/')
+
 
 class ChatPageTest(TestCase):
     

@@ -133,6 +133,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Redirect url after login
-LOGIN_REDIRECT_URL = '/leagues'
+LOGIN_REDIRECT_URL = '/leagues/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = '/accounts/login/'
