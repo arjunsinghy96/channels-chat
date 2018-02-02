@@ -10,10 +10,17 @@ class HomePageTest(TestCase):
                                         password='test_user')
 
     def test_root_maps_to_home_page_view(self):
+        """
+        Test that the home_page view is used to respond on root path
+        """
         found = resolve('/')
         self.assertEqual(found.func, views.home_page)
 
     def test_home_page_redirects_to_login(self):
+        """
+        Test that the home page redirects to the login page if user is not
+        logged in.
+        """
         response = self.client.get('/', follow=True)
         self.assertRedirects(response, '/accounts/login/?next=/')
 
@@ -30,7 +37,19 @@ class HomePageTest(TestCase):
 class ChatPageTest(TestCase):
     
     def test_chat_maps_to_chat_page_view(self):
+        """
+        Tests that the chat_page view is used to resond on /chat path with
+        different room names.
+        """
         found = resolve('/chat/room1/')
         self.assertEqual(found.func, views.chat_page)
         found = resolve('/chat/room2/')
         self.assertEqual(found.func, views.chat_page)
+
+    def test_home_page_redirects_to_login(self):
+        """
+        Test that the chat page redirects to login page if user is not
+        logged in.
+        """
+        response = self.client.get('/chat/room1/', follow=True)
+        self.assertRedirects(response, '/accounts/login/?next=/chat/room1/')
