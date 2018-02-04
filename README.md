@@ -2,6 +2,8 @@
 
 A simple chat server written in django using django-channels for websocket integration.
 
+Note: First first migrations, migrate you database with this branch first. Then switch to the master branch.
+
 #### TODO:
 
 - [ ] Transit from sqlite3 to postgresql

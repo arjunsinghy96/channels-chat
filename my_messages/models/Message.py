@@ -12,7 +12,7 @@ from . import utils
 class Message(models.Model):
     league = models.ForeignKey(League, related_name='messages', on_delete=models.CASCADE)
     sender = models.ForeignKey(User,
-                               default=utils.sentient_user().pk,
+                               default=1,
                                on_delete=models.SET(utils.sentient_user))
     message = models.TextField()
     timestamp = models.DateTimeField(auto_now=True)
