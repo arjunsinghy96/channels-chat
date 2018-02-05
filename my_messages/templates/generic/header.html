@@ -1,19 +1,17 @@
-<header>
-    <div class='navbar-fixed'>
-        <nav>
-            <div class='nav-wrapper'>
-                <ul class='left hide-on-med-and-down'>
-                    <li><a href="{% url 'home' %}">Home</a></li>
-                    {% if user.is_authenticated %}
-                    <li><a href="{% url 'leagues' %}">Leagues</a></li>
-                    <li><a href="{% url 'invites' %}">Invites</a></li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                    {% else %}
-                    <li><a href="{% url 'signup' %}">Signup</a></li>
-                    {% endif %}
-                </ul>
-                    <a href='#' data-activated='dropdown1' class='right dropdown-button brand-logo'><i class='material-icons'>more_vert</i></a>
-            </div>
-        </nav>
-    </div>
-</header>
+<div class='navbar-fixed'>
+    <nav>
+        <div class='cyan darken-2 nav-wrapper'>
+            <ul class='left hide-on-med-and-down'>
+                <li><a href="{% url 'home' %}">Home</a></li>
+                {% if user.is_authenticated %}
+                <li><a href="{% url 'leagues' %}">Leagues</a></li>
+                <li><a href="{% url 'invites' %}">Invites</a></li>
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+                {% else %}
+                <li><a href="{% url 'signup' %}">Signup</a></li>
+                {% endif %}
+            </ul>
+                <a href='#' class='right dropdown-button' data-activates="header-dropdown"><i class='material-icons'>more_vert</i></a>
+        </div>
+    </nav>
+</div>

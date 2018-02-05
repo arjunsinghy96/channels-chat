@@ -2,14 +2,13 @@
 
 {% load staticfiles %}
 
+{% block header_dropdown %}
+<li><a class='modal-trigger' href='#invite-modal'>Add</a></li>
+{% endblock %}
+
 {% block content %}
 
 <!--- Make invite form appear as modal -->
-
-<a class='waves-effect waves-light btn-floating green modal-trigger' href='#invite-modal'>
-    <i class='material-icons white-text'>add</i>
-</a>
-
 <div id='invite-modal' class='modal'>
     <div class='modal-content'>
         <h4> Invite by Username</h4>
@@ -24,14 +23,13 @@
         <input type='submit' form='invite-form' class='btn-flat modal-action modal-close' value='Invite' />
     </div>
 </div>
-
 <!--- Invite modal ends here -->
 
-<!--- The actual chat window which will contain the chat stream -->
 
+<!--- The actual chat window which will contain the chat stream -->
 <p id='id_username' hidden>{{ username }}</p>
 
-<div id='chat-container' class='green lighten-2 chat-container'>
+<div id='chat-container' class='grey chat-container'>
     <div id='id_chat' class='row bottom'>
         {% for message in messages %}
         {% if message.sender == user %}
@@ -46,7 +44,10 @@
     </div>
 </div>
 
-<div id='id_chat_input' class='z-depth-4 black-text white page-footer row' style="margin-bottom:0">
+{% endblock %}
+
+{% block chat_footer %}
+<div id='id_chat_input' class='z-depth-4 fixed black-text white page-footer row' style="margin-bottom:0">
     <div class='col s9'>
         <form id='id_form_msg_box'>
             <input id='id_msg_box' type='text' autocomplete='off'>
@@ -58,8 +59,8 @@
         </button>
     </div>
 </div>
-
 {% endblock %}
+
 
 
 {% block scripts %}

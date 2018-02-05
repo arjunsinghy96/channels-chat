@@ -1,3 +1,17 @@
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
+
+main{
+    flex: 1 0 auto;
+}
+
+.page-footer {
+    z-index: 3 !important;
+}
+
 .message-bubble{
     border-radius: 5px;
     margin: 3px;
@@ -27,9 +41,14 @@
 }
 
 .chat-container{
+    position: absolute;
     height: 90vh;
     overflow: auto;
-    padding: 25px;
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 80px;
+    padding-bottom:0;
+    top: 0;
 }
 
 .chat-container::-webkit-scrollbar {

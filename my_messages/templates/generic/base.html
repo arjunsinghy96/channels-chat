@@ -14,18 +14,24 @@
 </head>
 
 <body>
-    <ul id='dropdown1' class='dropdown-content'>
-        {% if user.is_authenticated %}
-        <li><a href="{% url 'logout' %}">Logout</a></li>
-        {% endif %}
+    <header>
+        <ul class='dropdown-content' id='header-dropdown'>
+            {% block header_dropdown %}
+            {% endblock %}
+            {% if user.is_authenticated %}
+            <li class='hide-on-large'><a href="{% url 'logout' %}">Logout</a></li>
+            {% endif %}
+        </ul>
+    {% include 'generic/header.html'%}
+    </header>
 
-        {% block dropdown1%} {% endblock %}
-    </ul>
-
-    {% include 'generic/header.html' %}
-
+    <main>
     {% block content %} {% endblock %}
+    </main>
 
+    <footer>
+        {% block chat_footer %}{% endblock %}
+    </footer>
     
     <!-- Load all javascript at the end -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
