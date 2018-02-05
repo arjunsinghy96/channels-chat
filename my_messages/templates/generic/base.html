@@ -14,26 +14,17 @@
 </head>
 
 <body>
-    <div class="row" style="margin-bottom:0">
+    <ul id='dropdown1' class='dropdown-content'>
+        {% if user.is_authenticated %}
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+        {% endif %}
 
-        <div class="col s2">
-        {% block sidebar %}
-        <div class='collection'>
-            <a class='collection-item' href="{% url 'home' %}">Home</a>
-            {% if user.is_authenticated %}
-            <a class='collection-item' href="{% url 'leagues' %}">Leagues</a>
-            <a class='collection-item' href="{% url 'invites' %}">Invites</a>
-            <a class='collection-item' href="{% url 'logout' %}">Logout</a>
-            {% endif %}
-        </div>
-        {% endblock %}
-        </div>
+        {% block dropdown1%} {% endblock %}
+    </ul>
 
-        <div class="col s10" style="padding-right:0">
-            {% block content %}
-            {% endblock %}
-        </div>
-    </div>
+    {% include 'generic/header.html' %}
+
+    {% block content %} {% endblock %}
 
     
     <!-- Load all javascript at the end -->
