@@ -19,7 +19,7 @@
             {% block header_dropdown %}
             {% endblock %}
             {% if user.is_authenticated %}
-            <li class='hide-on-large'><a href="{% url 'logout' %}">Logout</a></li>
+            <li class='hide-on-large-only'><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
         </ul>
     {% include 'generic/header.html'%}

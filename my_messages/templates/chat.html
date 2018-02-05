@@ -29,13 +29,13 @@
 <!--- The actual chat window which will contain the chat stream -->
 <p id='id_username' hidden>{{ username }}</p>
 
-<div id='chat-container' class='grey chat-container'>
+<div id='chat-container' class='blue-grey darken-4 chat-container'>
     <div id='id_chat' class='row bottom'>
         {% for message in messages %}
         {% if message.sender == user %}
-            <div class='col s10 m8 push-s2 push-m4 z-depth-1 message-bubble me grey lighten-2'>
+            <div class='col s8 push-s4 z-depth-1 message-bubble me grey lighten-2'>
         {% else %}
-            <div class='col s10 m8 pull-s0 z-depth-1 message-bubble other cyan darken-4 white-text'>
+            <div class='col s8 pull-s0 z-depth-1 message-bubble other cyan darken-4 white-text'>
         {% endif %}
                 <p><b> {{ message.sender.username }}</b><p>
                 <p>{{ message.message }} </p>
