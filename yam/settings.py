@@ -143,3 +143,6 @@ LOGIN_REDIRECT_URL = '/leagues/'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = '/accounts/login/'
+
+PLIVO_ID = os.environ.get('PLIVO_ID', '')
+PLIVO_TOKEN = os.environ.get('PLIVO_TOKEN' ,'')

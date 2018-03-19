@@ -8,6 +8,7 @@ from channels import Group
 
 from my_messages.models import League
 from . import utils
+from yam.utils import send_sms
 
 class Message(models.Model):
     league = models.ForeignKey(League, related_name='messages', on_delete=models.CASCADE)
