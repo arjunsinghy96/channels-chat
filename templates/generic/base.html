@@ -6,22 +6,23 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
 
     <!-- Add additional CSS -->
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
 <body>
     <header>
-        <ul class='dropdown-content' id='header-dropdown'>
+        <!-- <ul class='dropdown-content' id='header-dropdown'>
             {% block header_dropdown %}
             {% endblock %}
             {% if user.is_authenticated %}
             <li class='hide-on-large-only'><a href="{% url 'logout' %}">Logout</a></li>
             {% endif %}
-        </ul>
+        </ul> -->
     {% include 'generic/header.html'%}
     </header>
 
@@ -35,7 +36,10 @@
     
     <!-- Load all javascript at the end -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-    <script src="{% static 'js/materialize.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
+
 
     {% block scripts %}
     <!-- block to add your own scripts -->

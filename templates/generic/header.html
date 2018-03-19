@@ -1,17 +1,22 @@
-<div class='navbar-fixed'>
-    <nav>
-        <div class='cyan darken-2 nav-wrapper'>
-            <ul class='left hide-on-med-and-down'>
-                <li><a href="{% url 'home' %}">Home</a></li>
-                {% if user.is_authenticated %}
-                <li><a href="{% url 'leagues' %}">Leagues</a></li>
-                <li><a href="{% url 'invites' %}">Invites</a></li>
-                <li><a href="{% url 'logout' %}">Logout</a></li>
-                {% else %}
-                <li><a href="{% url 'signup' %}">Signup</a></li>
-                {% endif %}
-            </ul>
-                <a href='#' class='right dropdown-button' data-activates="header-dropdown"><i class='material-icons'>more_vert</i></a>
-        </div>
-    </nav>
-</div>
+<nav class="navbar border-bottom">
+    <div class="container">
+        <a class="navbar-brand text-secondary" href="{% url 'home'%}">YAM</a>
+        <ul class="nav justified-content-end">
+            {% if user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'leagues' %}">Leagues</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'invites' %}">Invites</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
