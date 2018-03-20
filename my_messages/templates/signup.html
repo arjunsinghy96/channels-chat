@@ -1,9 +1,34 @@
 {% extends 'generic/base.html' %}
 
 {% block content %}
-<form method='post'>
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type='submit' value='SignUp' />
-</form>
+<div class="row justify-content-center">
+    <div class="col-12 col-sm-8 col-md-8 col-lg-6">
+        <div class="card">
+            <h4 class="card-header text-center">Enter Details</h4>
+            <form method="POST" action="{% url 'signup'%}">
+                {% csrf_token %}
+                <div class="card-body">
+                    {% for error in form.non_field_errors %}
+                    <div class="form-group has-errors text-danger small">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag}}
+                        {{ field }}
+                        <small class="text-danger">{{field.errors}}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+                        <input type="reset" class="btn btn-light" value="Reset">
+                        <input type="submit" class="btn btn-outline-success" value="Continue">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 {% endblock %}

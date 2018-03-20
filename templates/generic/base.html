@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<body>
-    <header>
+<body class="bg-light">
+    <header class="mb-5">
         <!-- <ul class='dropdown-content' id='header-dropdown'>
             {% block header_dropdown %}
             {% endblock %}
@@ -26,11 +26,11 @@
     {% include 'generic/header.html'%}
     </header>
 
-    <main>
+    <main class="container mt-3">
     {% block content %} {% endblock %}
     </main>
 
-    <footer>
+    <footer height="25vh">
         {% block chat_footer %}{% endblock %}
     </footer>
     

@@ -2,10 +2,6 @@
 
 {% block content %}
 
-{% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
-{% endif %}
-
 {% if next %}
     {% if user.is_authenticated %}
     <p>Your account doesn't have access to this page. To proceed, 
@@ -15,31 +11,36 @@
     {% endif %}
 {% endif %}
 
-<form method="post" action="{% url 'login' %}">
-{% csrf_token %}
-<div class='row'>
-    <div class='col s12 m6 offset-m3'>
-        {% for field in form %}
-        <div class='row margin'>
-            <div class='input-field col s12'>
-                {{ field }}
-                {{ field.label_tag }}
-            </div>
-        </div>
-        {% endfor %}
-
-        <div class="row">
-            <div class='col s12'>
-                <button class='btn col s4 offset-s4 waves-effect waves-light' type="submit">Login</button>
-                <input type="hidden" name="next" value="{{ next }}" />
-            </div>
-            <div class='col s12'>
-                <p class='center'><a href="{% url 'password_reset' %}">Lost password?</a></p>
-            </div>
+<div class="row justify-content-md-center">
+    <div class="col-12 col-sm-8 col-md-6">
+        <div class="card z-depth-1">
+            <h4 class="card-header text-center">Enter Credientials</h4>
+            <form action="{% url 'login'%}?next={{next}}" method="POST" class="needs-validation">
+                {% csrf_token %}
+                <div class="card-body">
+                    {% for error in form.non_field_errors %}
+                    <div class="form-group has-errors text-danger small">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag}}
+                        {{ field }}
+                        <small class="text-danger">{{field.errors}}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+                        <input type="reset" class="btn btn-light" value="Reset">
+                        <input type="submit" class="btn btn-outline-success" value="Continue">
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-</form>
 
 
 {% endblock %}

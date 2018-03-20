@@ -2,70 +2,45 @@
 
 {% load staticfiles %}
 
-{% block header_dropdown %}
-<li><a class='modal-trigger' href='#invite-modal'>Add</a></li>
-{% endblock %}
-
 {% block content %}
-
-<!--- Make invite form appear as modal -->
-<div id='invite-modal' class='modal'>
-    <div class='modal-content'>
-        <h4> Invite by Username</h4>
-        <form id='invite-form' method='post' action='/invites/'>
-            {% csrf_token %}
-            <input type='hidden' value={{league_name}} name='league_name'/>
-            <input type='text' name='username' placeholder='Username to invite'/>
-        </form>
-    </div>
-    <div class='modal-footer'>
-        <button class='btn-flat modal-action modal-close'>Cancel</button>
-        <input type='submit' form='invite-form' class='btn-flat modal-action modal-close' value='Invite' />
-    </div>
-</div>
-<!--- Invite modal ends here -->
-
-
-<!--- The actual chat window which will contain the chat stream -->
 <p id='id_username' hidden>{{ username }}</p>
-
-<div class='row'>
-
-<div id='chat-container' class='blue-grey col s12 darken-4 chat-container'>
-    <div id='id_chat' class='row bottom'>
+<div class='chat-container row'>
+    <div id="chat-container" class="col-12 px-5">
         {% for message in messages %}
-        {% if message.sender == user %}
-            <div class='col s8 push-s4 z-depth-1 message-bubble me grey lighten-2'>
-        {% else %}
-            <div class='col s8 pull-s0 z-depth-1 message-bubble other cyan darken-4 white-text'>
-        {% endif %}
-                <p><b> {{ message.sender.username }}</b><p>
-                <p>{{ message.message }} </p>
-           </div>
+            {% if message.sender == user %}
+                <div class="row mt-1 justify-content-end">
+                    <div class="col-10 col-md-8 me message-bubble bg-green">
+                        <p><b>{{ message.sender.username }}</b></p>
+                        <p>{{ message.message }} </p>
+                    </div>
+                </div>
+            {% else %}
+                <div class="row mt-1 justify-content-start">
+                    <div class="col-10 col-md-8 other message-bubble bg-blue">
+                        <p><b>{{ message.sender.username }}</b></p>
+                        <p>{{ message.message }}</p>
+                    </div>
+                </div>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
-
-</div>
-
 {% endblock %}
 
 {% block chat_footer %}
-<div id='id_chat_input' class='z-depth-4 fixed black-text white page-footer row' style="margin-bottom:0">
-    <div class='col s9'>
-        <form id='id_form_msg_box'>
-            <input id='id_msg_box' type='text' autocomplete='off'>
-        </form>
+    <div class="message-box clearfix container">
+        <div class="row">
+            <div class="col-10 col-md-11 px-1">
+            <form id="id_form_msg_box">
+                <textarea name="message-to-send" class="px-2 py-1" id="id_msg_box" placeholder ="Type your message" rows="3" resize="none"></textarea>
+            </form>
+            </div>
+            <div class="col-2 col-md-1 align-middle pt-4">
+                <button type='submit' form='id_form_msg_box' class="btn"><i class="material-icons text-center text-primary">send</i></button>
+            </div>
+        </div>
     </div>
-    <div class='col s2 push-s1'>
-        <button type='submit' form='id_form_msg_box' class='btn-floating cyan darken-4 waves-effect waves-light'>
-            <i class='material-icons'>send</i>
-        </button>
-    </div>
-</div>
 {% endblock %}
-
-
 
 {% block scripts %}
 <script src="{% static 'js/script.js' %}"></script>

@@ -59,6 +59,7 @@ class SignUpView(View):
         if form.is_valid():
             form.save()
             return redirect('leagues', permanent=True)
+        return render(request, 'signup.html', {'form': form})
 
 class LeagueView(View):
 
@@ -76,7 +77,8 @@ class LeagueView(View):
             league, created = League.objects.get_or_create(name=room)
             if created:
                 Membership.objects.create(league=league,
-                                          user=request.user)
+                                          user=request.user,
+                                          permissions='4')
             return redirect('chat', permanent=True, room=room)
 
 class InviteView(View):

@@ -8,17 +8,20 @@ socket.onmessage = function(msg) {
     var data = JSON.parse(msg.data);
     console.log(data);
     if(username === data.handle){
-        var classes= "col s10 m8  push-s2 push-m4 z-depth-1 message-bubble me grey lighten-2";
+        var outer_class = "row justify-content-end";
+        var inner_class= "col-10 col-md-8 me message-bubble bg-green";
     }
     else{
-        var classes = "col s8 m8 pull-s0 z-depth-1 message-bubble other cyan darken-4 white-text";
+        var outer_class = "row justify-content-start";
+        var classes = "col-10 col-md-8 other message-bubble bg-blue";
     }
-    var message = `<div class="${classes}">
-                     <p><b>${data.handle}</b></p>
-                     <p>${data.message}</p>
-                   </div>`
+    var message = `<div class="${outer_class}">
+                    <div class="${inner_class}">
+                        <p><b>${data.handle}</b></p>
+                        <p>${data.message}</p>
+                   </div></div>`
 
-    $('#id_chat').append(message);
+    $('#chat-container').append(message);
 };
 
 if(socket.readyState == socket.OPEN) socket.onopen();

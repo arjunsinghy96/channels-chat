@@ -3,28 +3,30 @@
 {% block title %}<title>Leagues</title>{% endblock %}
 
 {% block content %}
-    <div class='row'>
-        <div class='col s12 m6 collection'>
-            <h5> Your Leagues </h5>
-            {% for league in leagues %}
-            <a class='collection-item' href="{% url 'chat' room=league.name %}">{{league.name}}</a>
-            {% endfor %}
-        </div>
 
-        <div class='col s12 m6'>
-            <h5> Create new League: </h5>
-            <form method='post'>
-                {% csrf_token %}
-                <div class='input-field'> 
-                    {% for field in form %}
-                        {{ field }}
-                        <label for='name'>League Name</label>
-                    {% endfor %}
-                </div>
-                <input class='btn z-depth-0 green col s4' type='submit' value='Create' />
-            </form>
-        </div>
-
+<div class="row justify-content-md-center">
+    <div class="col-12 col-md-6">
+        <h5 class="text-center">Create new League</h5>
+        <form method="POST" class="form-inline justify-content-center">
+            {% csrf_token %}
+            <div class="form-group mx-2">
+                <input type="text" class="form-control" name="name" placeholder="League Name" required>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn form-control btn-outline-success">Create</button>
+            </div>
+        </form>
     </div>
+</div>
 
+<div class='row justify-content-md-center mt-5'>
+    <div class='col-12 col-md-6'>
+        <h5 class="text-center"> Your Leagues </h5>
+        <div class="list-group">
+        {% for league in leagues %}
+            <a class="list-group-item list-group-item-action" href="{% url 'chat' room=league.name %}">{{league.name}}</a>
+        {% endfor %}
+        </div>
+    </div>
+</div>
 {% endblock %}
