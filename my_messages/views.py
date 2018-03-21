@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, redirect
 from django.views import View
 from django.contrib.auth import login, logout, authenticate
@@ -61,15 +62,13 @@ class SignUpView(View):
             return redirect('leagues', permanent=True)
         return render(request, 'signup.html', {'form': form})
 
-class LeagueView(View):
+class LeagueView(LoginRequiredMixin, View):
 
-    @method_decorator(login_required)
     def get(self, request):
         leagues = request.user.member_of.all()
         form = LeagueForm()
         return render(request, 'leagues.html', {'leagues': leagues, 'form': form})
 
-    @method_decorator(login_required)
     def post(self, request):
         form = LeagueForm(request.POST)
         if form.is_valid():
@@ -81,14 +80,12 @@ class LeagueView(View):
                                           permissions='4')
             return redirect('chat', permanent=True, room=room)
 
-class InviteView(View):
+class InviteView(LoginRequiredMixin, View):
 
-    @method_decorator(login_required)
     def get(self, request):
         invites = request.user.invite_set.all()
         return render(request, 'invites.html', {'invites': invites})
 
-    @method_decorator(login_required)
     def post(self, request):
         username = request.POST['username']
         permissions = request.POST['permissions']
