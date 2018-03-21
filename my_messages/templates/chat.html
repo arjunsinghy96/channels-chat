@@ -44,7 +44,23 @@
                 <form action="{% url 'invites' %}" method="POST" id="inviteForm">
                     {% csrf_token %}
                     <input type="text" name="league_name" value="{{ league_name }}" hidden>
-                    <input type="text" name="username" class="form-control" placeholder="Username">
+                    <input type="text" name="username" class="form-control mb-2" placeholder="Username">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="permissions" id="owner-permission" value="owner">
+                        <label class="form-check-label" for="permissions">owner</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="permissions" id="master-permission" value="master">
+                        <label class="form-check-label" for="permissions">master</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="permissions" id="member-permission" value="member">
+                        <label class="form-check-label" for="permissions">member</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="permissions" id="guest-permissoin" value="guest">
+                        <label class="form-check-label" for="permissions">guest</label>
+                    </div>
                 </form>
             </div>
             <div class="modal-footer">

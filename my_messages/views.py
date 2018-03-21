@@ -91,7 +91,11 @@ class InviteView(View):
     @method_decorator(login_required)
     def post(self, request):
         username = request.POST['username']
+        permissions = request.POST['permissions']
         invited = User.objects.get(username=username)
         league = League.objects.get(name=request.POST['league_name'])
-        invite = Invite.objects.get_or_create(user=invited, league=league)
+        invite, created = Invite.objects.get_or_create(user=invited,
+                                              league=league)
+        invite.permissions = permissions
+        invite.save()
         return render(request, 'invite_sent.html')
