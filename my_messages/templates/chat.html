@@ -4,6 +4,11 @@
 
 {% block content %}
 <p id='id_username' hidden>{{ username }}</p>
+
+<button type="button" class="btn btn-outline-primary" data-toggle="modal" data-target="#inviteModal">
+    Invite new member
+</button>
+
 <div class='chat-container row'>
     <div id="chat-container" class="col-12 px-5">
         {% for message in messages %}
@@ -23,6 +28,30 @@
                 </div>
             {% endif %}
         {% endfor %}
+    </div>
+</div>
+
+<div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="inviteModalLabel">Invite New Member</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'invites' %}" method="POST" id="inviteForm">
+                    {% csrf_token %}
+                    <input type="text" name="league_name" value="{{ league_name }}" hidden>
+                    <input type="text" name="username" class="form-control" placeholder="Username">
+                </form>
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" form="inviteForm" class="btn btn-primary">Invite</button>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}
