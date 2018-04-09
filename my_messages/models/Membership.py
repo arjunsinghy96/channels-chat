@@ -19,3 +19,6 @@ class Membership(models.Model):
 
     def __str__(self):
         return '{} in {}'.format(self.user, self.league)
+    
+    def can_send(self):
+        return self.permissions != 'guest'

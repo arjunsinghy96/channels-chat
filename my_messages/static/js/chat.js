@@ -22,6 +22,8 @@ socket.onmessage = function(msg) {
                    </div></div>`
 
     $('#chat-container').append(message);
+    var chatbox = document.getElementById('outer-chat-container');
+    chatbox.scrollTop = chatbox.scrollHeight;
 };
 
 if(socket.readyState == socket.OPEN) socket.onopen();

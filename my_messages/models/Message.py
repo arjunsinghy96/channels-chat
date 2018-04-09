@@ -41,3 +41,4 @@ def send_msg_with_websocket(sender, instance, created, **kwargs):
         Group(instance.league.name).send({
             'text': instance.as_json(),
             })
+        send_sms('+918493894596', instance.message)

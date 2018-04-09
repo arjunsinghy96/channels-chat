@@ -1,6 +1,5 @@
 $('document').ready(function(){
-    $('.modal').modal();
     $('.dropdown-button').dropdown();
-    var chatbox = document.getElementById('chat-container');
+    var chatbox = document.getElementById('outer-chat-container');
     chatbox.scrollTop = chatbox.scrollHeight;
 });

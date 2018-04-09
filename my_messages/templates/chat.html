@@ -9,7 +9,7 @@
     Invite new member
 </button>
 
-<div class='chat-container row'>
+<div class='chat-container row' id="outer-chat-container">
     <div id="chat-container" class="col-12 px-5">
         {% for message in messages %}
             {% if message.sender == user %}
@@ -73,6 +73,7 @@
 {% endblock %}
 
 {% block chat_footer %}
+    {% if membership.can_send %}
     <div class="message-box clearfix container">
         <div class="row">
             <div class="col-10 col-md-11 px-1">
@@ -85,6 +86,15 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <div class="message-box clearfix container">
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-10">
+                <h5 class="text-center align-middle">You cannot send a message as you are just a guest member.</h5>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}

@@ -16,8 +16,12 @@ def home_page(request):
 @login_required
 def chat_page(request, room):
     league, created  = League.objects.get_or_create(name=room)
-    members = league.members.all()
-    if request.user not in members:
+    try:
+        membership = Membership.objects.get(
+            user=request.user,
+            league=league,
+        )
+    except Membership.DoesNotExist:
         return render(request, 'not_member.html')
     messages = league.messages.all().order_by('timestamp')
     return render(request, 'chat.html',
@@ -25,14 +29,21 @@ def chat_page(request, room):
                 'username': request.user.username,
                 'messages': messages,
                 'league_name': room,
+                'membership': membership,
             }
         )
 
 @login_required
 def accept_invite(request, invite_id):
     invite = Invite.objects.get(pk=invite_id)
-    Membership.objects.update_or_create(league=invite.league,
+    mem, created = Membership.objects.update_or_create(league=invite.league,
                                         user=invite.user)
+    if created:
+        mem.permissions = invite.permissions
+        mem.save()
+    elif mem.permissions < invite.permissions:
+        mem.permissions = invite.permissions
+        mem.save()
     invite.delete()
     return redirect('leagues', permanent=True)
 
@@ -93,6 +104,8 @@ class InviteView(LoginRequiredMixin, View):
         league = League.objects.get(name=request.POST['league_name'])
         invite, created = Invite.objects.get_or_create(user=invited,
                                               league=league)
+        print(permissions)
         invite.permissions = permissions
         invite.save()
+        print(invite.permissions)
         return render(request, 'invite_sent.html')
