@@ -1,27 +1,22 @@
-<nav class="navbar navbar-expand-md fixed-top bg-dark">
+<nav class="navbar border-bottom">
     <div class="container">
-        <a class="navbar-brand text-light" href="{% url 'home'%}">YAM</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-content" aria-controls="nav-content" aria-expanded="false" aria-label="Toggle navigation">
-                <i class="material-icons text-white">menu</i>
-        </button>
-        <div class="collapse navbar-collapse" id="nav-content">
-            <ul class="nav justified-content-end">
-                {% if user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url 'leagues' %}">Leagues</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url 'invites' %}">Invites</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url 'logout' %}">Logout</a>
-                    </li>
-                {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link text-light" href="{% url 'signup' %}">Signup</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </div>
+      <a class="navbar-brand text-dark" href="{% url 'home'%}">YAM</a>
+      <ul class="nav justified-content-end">
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link text-dark" href="{% url 'invites' %}"><i class="fas fa-users"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-dark mr-2" href="{% url 'leagues' %}"><i class="fas fa-comments"></i></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link btn btn-outline-danger btn-sm" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'signup' %}">Signup</a>
+            </li>
+        {% endif %}
+      </ul>
     </div>
 </nav>
