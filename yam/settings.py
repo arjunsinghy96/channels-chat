@@ -32,6 +32,7 @@ else:
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOST', '').split()
 
+AUTH_USER_MODEL = 'registration.User'
 
 # Application definition
 
@@ -42,8 +43,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'my_messages',
     'channels',
+    'registration',
 ]
 
 MIDDLEWARE = [
@@ -107,15 +108,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # settings for django-channels
-CHANNEL_LAYERS = {
-    'default': {
-        'BACKEND': 'asgi_redis.RedisChannelLayer',
-        'ROUTING': 'my_messages.routing.channel_routing',
-        'CONFIG': {
-            'hosts': [('localhost', 6379)],
-            },
-    },
-}
+# CHANNEL_LAYERS = {
+#     'default': {
+#         'BACKEND': 'asgi_redis.RedisChannelLayer',
+#         'ROUTING': 'my_messages.routing.channel_routing',
+#         'CONFIG': {
+#             'hosts': [('localhost', 6379)],
+#             },
+#     },
+# }
 
 
 # Internationalization

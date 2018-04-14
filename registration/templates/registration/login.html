@@ -1,0 +1,52 @@
+{% extends 'generic/base.html'%}
+
+{% block title %}
+<title>Login - YAM</title>
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .errorlist{
+        list-style-type: none;
+        padding: 0;
+    }
+</style>
+
+<div class="row justify-content-md-center">
+    <div class="col-12 col-sm-8 col-md-6">
+        <div class="card z-depth-1">
+            <h4 class="card-header text-center">Enter Credientials</h4>
+            <form action="{% url 'login'%}?next={{next}}" method="POST" class="needs-validation">
+                {% csrf_token %}
+                <div class="card-body">
+                    {% for error in form.non_field_errors %}
+                    <div class="form-group has-errors text-danger small">
+                        {{error}}
+                    </div>
+                    {% endfor %}
+                    {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label_tag}}
+                        {{ field }}
+                        <small class="text-danger">{{field.errors}}</small>
+                    </div>
+                    {% endfor %}
+                    <div class="text-center small mb-2">
+                        <a href="{% url 'password_reset' %}" class="font-weight-light">Forgot Password?</a>
+                    </div>
+                    <div class="text-center small">
+                        No Account? <a href="{% url 'signup'%}?next={{next}}">Create one</a>.
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <div class="row justify-content-end">
+                        <input type="reset" class="btn btn-light" value="Reset">
+                        <input type="submit" class="btn btn-outline-success" value="Continue">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

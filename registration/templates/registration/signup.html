@@ -1,21 +1,23 @@
-{% extends "generic/base.html" %}
+{% extends 'generic/base.html'%}
+
+{% block title %}
+<title>Sign Up - YAM</title>
+{% endblock %}
 
 {% block content %}
 
-{% if next %}
-    {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed, 
-    please login with an account that has access.</p>
-    {% else %}
-    <p>Please login to see this page.</p>
-    {% endif %}
-{% endif %}
+<style>
+    .errorlist{
+        list-style-type: none;
+        padding: 0;
+    }
+</style>
 
 <div class="row justify-content-md-center">
     <div class="col-12 col-sm-8 col-md-6">
-        <div class="card z-depth-1">
-            <h4 class="card-header text-center">Enter Credientials</h4>
-            <form action="{% url 'login'%}?next={{next}}" method="POST" class="needs-validation">
+        <div class="card">
+            <h4 class="card-header text-center">Create a new account</h4>
+            <form action="{% url 'signup'%}?next={{next}}" method="POST" class="needs-validation">
                 {% csrf_token %}
                 <div class="card-body">
                     {% for error in form.non_field_errors %}
@@ -30,17 +32,21 @@
                         <small class="text-danger">{{field.errors}}</small>
                     </div>
                     {% endfor %}
+                    <div class="text-center small">
+                        Already have an account? <a href="#">Login</a>.
+                    </div>
+                    <div class="text-center small">
+                        By creating an account you agree to our <a href="#">terms of service</a>.
+                    </div>
                 </div>
                 <div class="card-footer">
                     <div class="row justify-content-end">
                         <input type="reset" class="btn btn-light" value="Reset">
-                        <input type="submit" class="btn btn-outline-success" value="Continue">
+                        <input type="submit" class="btn btn-outline-success" value="Sign Up">
                     </div>
                 </div>
             </form>
         </div>
     </div>
 </div>
-
-
 {% endblock %}

@@ -1,13 +1,13 @@
 <nav class="navbar border-bottom">
     <div class="container">
-      <a class="navbar-brand text-dark" href="{% url 'home'%}">YAM</a>
+      <a class="navbar-brand text-dark" href="#">YAM</a>
       <ul class="nav justified-content-end">
         {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-dark" href="{% url 'invites' %}"><i class="fas fa-users"></i></a>
+                <a class="nav-link text-dark" href="#"><i class="fas fa-users"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-dark mr-2" href="{% url 'leagues' %}"><i class="fas fa-comments"></i></a>
+                <a class="nav-link text-dark mr-2" href="#}"><i class="fas fa-comments"></i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link btn btn-outline-danger btn-sm" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i></a>
