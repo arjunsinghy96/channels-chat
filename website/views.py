@@ -10,6 +10,25 @@ from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 
 @login_required
+def chat_page(request, slug):
+    try:
+        league = League.objects.get(slug=slug)
+        membership = Membership.objects.get(
+            user=request.user,
+            league=league,
+        )
+        messages = league.messages.all().order_by('sent_at')
+        return render(request, 'website/chat.html', {
+            'league': league,
+            'membership': membership,
+            'messages': messages,
+        })
+    except Membership.DoesNotExist:
+        return redirect('home')
+    except League.DoesNotExist:
+        return redirect('home')
+
+@login_required
 def invite_count(request):
     count = Invite.objects.filter(user=request.user).count()
     return JsonResponse({'count': count}, status=200)
