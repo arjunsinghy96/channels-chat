@@ -15,19 +15,12 @@
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
-<body class="bg-light">
-    <header class="mb-5">
-        <!-- <ul class='dropdown-content' id='header-dropdown'>
-            {% block header_dropdown %}
-            {% endblock %}
-            {% if user.is_authenticated %}
-            <li class='hide-on-large-only'><a href="{% url 'logout' %}">Logout</a></li>
-            {% endif %}
-        </ul> -->
+<body>
+    <header>
     {% include 'generic/header.html'%}
     </header>
 
-    <main class="container">
+    <main class="container px-0 bg-white">
             {% if messages %}
             <div class="alert alert-success alert-dismissible" role="alert">
                 {% for message in messages %}

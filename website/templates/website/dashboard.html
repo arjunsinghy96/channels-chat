@@ -4,29 +4,53 @@
 
 {% block content %}
 
-<div class="row justify-content-md-center">
-    <div class="col-12 col-md-6">
-        <h5 class="text-center">Create new League</h5>
-        <form method="POST" class="form-inline justify-content-center" action="{% url 'league' %}">
-            {% csrf_token %}
-            <div class="form-group mx-2">
-                <input type="text" class="form-control" name="name" placeholder="League Name" required>
+<ul class="nav nav-tabs nav-fill" id="top-tabs" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Recent</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active" id="league-tab" data-toggle="tab" href="#league" role="tab" aria-controls="league" aria-selected="true">League</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="true">Notification</a>
+    </li>
+</ul>
+
+<div class="tab-content" id="top-tabsContent">
+    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+    </div>
+    <div class="tab-pane fade show active" id="league" role="tabpanel" aria-labelledby="league-tab">
+
+        <div class="row justify-content-md-center">
+            <div class="col-12 col-md-6">
+                <h5 class="text-center">Create new League</h5>
+                <form method="POST" class="form-inline justify-content-center" action="{% url 'league' %}">
+                    {% csrf_token %}
+                    <div class="form-group mx-2">
+                        <input type="text" class="form-control" name="name" placeholder="League Name" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn form-control btn-outline-success">Create</button>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn form-control btn-outline-success">Create</button>
+        </div>
+
+        <div class='row justify-content-md-center mt-5'>
+            <div class='col-12 col-md-6'>
+                <h5 class="text-center"> Your Leagues </h5>
+                <div class="list-group">
+                {% for league in leagues %}
+                    <a class="list-group-item list-group-item-action" href="#">{{league.name}}</a>
+                {% endfor %}
+                </div>
             </div>
-        </form>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
+
     </div>
 </div>
 
-<div class='row justify-content-md-center mt-5'>
-    <div class='col-12 col-md-6'>
-        <h5 class="text-center"> Your Leagues </h5>
-        <div class="list-group">
-        {% for league in leagues %}
-            <a class="list-group-item list-group-item-action" href="#">{{league.name}}</a>
-        {% endfor %}
-        </div>
-    </div>
-</div>
 {% endblock %}
