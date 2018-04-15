@@ -13,6 +13,10 @@ def home(request):
     else:
         return redirect('login')
 
+class ProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        return render(request, 'website/profile.html')
+
 class DashboardView(LoginRequiredMixin, View):
     def get(self, request):
         leagues = request.user.member_of.all()
