@@ -1,9 +1,11 @@
+{% load humanize %}
+
 {% for message in messages %}
     {% if message.sender == user %}
         <div class="row mt-2 justify-content-end">
             <div class="col-8 mr-2 float-right border rounded-top rounded-left">
                 <div>{{message.message}}</div>
-                <small class="float-right">{{message.sent_at}}</small>
+                <small class="float-right">{{message.sent_at | naturaltime}}</small>
             </div>
         </div>
     {% else %}
@@ -11,7 +13,7 @@
         <div class="col-8 ml-2 border float-left rounded-top rounded-right">
             <div><strong>{{message.sender}}</strong></div>
             <div>{{message.message}}</div>
-            <small class="float-right">{{message.sent_at}}</small>
+            <small class="float-right">{{message.sent_at | naturaltime}}</small>
         </div>
     </div>
     {% endif %}
