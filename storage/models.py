@@ -59,7 +59,7 @@ class Message(models.Model):
         rep = {
                 'handle': self.sender.username,
                 'message': self.message,
-                'sent_at': self.timestamp.strftime('%b %m %Y, %H:%M %p'),
+                'sent_at': self.sent_at.strftime('%b %m %Y, %H:%M %p'),
             }
         return json.dumps(rep)
 
