@@ -1,11 +1,18 @@
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.views import View
 
 from website.forms import LeagueForm
-from storage.models import League, Membership
+from storage.models import League, Membership, Invite
+
+@login_required
+def invite_count(request):
+    count = Invite.objects.filter(user=request.user).count()
+    return JsonResponse({'count': count}, status=200)
 
 def home(request):
     if request.user.is_authenticated:

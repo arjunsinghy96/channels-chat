@@ -1,10 +1,10 @@
-<nav class="navbar">
+<nav class="navbar border-bottom">
     <div class="container">
       <a class="navbar-brand text-dark" href="{% url 'home' %}">YAM</a>
       <ul class="nav justified-content-end">
         {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-dark" href="#"><i class="fas fa-users align-bottom"></i><span class="badge badge-pill badge-info align-top">1</span></a>
+                <a class="nav-link text-dark" href="#"><i class="fas fa-users align-bottom"></i><span id="invite-count" class="px-1 badge badge-pill badge-info align-top"></span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-dark mr-2" href="{% url 'profile' %}"><i class="fas fa-cogs align-bottom"></i></a>
