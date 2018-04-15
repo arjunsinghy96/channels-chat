@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from storage.models import League, Membership
+
+@admin.register(League)
+class LeagueAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug')

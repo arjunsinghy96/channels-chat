@@ -5,4 +5,5 @@ from website import views
 urlpatterns = [
     path('', views.home, name='home'),
     path('dashboard/', views.DashboardView.as_view(), name='dashboard'),
+    path('league/', views.LeagueView.as_view(), name='league')
 ]

@@ -141,11 +141,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # Redirect url after login
-LOGIN_REDIRECT_URL = '/leagues/'
+LOGIN_REDIRECT_URL = '/dashboard/'
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/login/'
 
 PLIVO_ID = os.environ.get('PLIVO_ID', '')
 PLIVO_TOKEN = os.environ.get('PLIVO_TOKEN' ,'')

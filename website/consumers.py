@@ -27,7 +27,7 @@ class websockets(WebsocketConsumer):
         Save the Message with appropriate League and message
         """
         self.room = self.path.strip('/').split('/')[-1]
-        league = League.objects.get(name=self.room)
+        league = League.objects.get(slug=self.room)
         if text:
             m = Message.objects.create(
                     league=league,
