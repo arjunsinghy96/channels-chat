@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'channels',
     'registration',
+    'storage',
+    'website',
 ]
 
 MIDDLEWARE = [
@@ -108,15 +110,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # settings for django-channels
-# CHANNEL_LAYERS = {
-#     'default': {
-#         'BACKEND': 'asgi_redis.RedisChannelLayer',
-#         'ROUTING': 'my_messages.routing.channel_routing',
-#         'CONFIG': {
-#             'hosts': [('localhost', 6379)],
-#             },
-#     },
-# }
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'ROUTING': 'website.routing.channel_routing',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+            },
+    },
+}
 
 
 # Internationalization
