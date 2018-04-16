@@ -2,19 +2,36 @@
 
 {% for message in messages %}
     {% if message.sender == user %}
-        <div class="row mt-2 justify-content-end">
-            <div class="col-8 mr-2 float-right bubble-me">
-                <div>{{message.message}}</div>
-                <small class="float-right">{{message.sent_at | naturaltime}}</small>
+        {% if message.next_message.sender == message.sender or message.next_message == null %}
+            <div class="row mt-2 justify-content-end">
+                <div class="col-8 mr-2 float-right bubble-me-continue py-2">
+                    <div>{{message.message}}</div>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="row mt-2 justify-content-end">
+                <div class="col-8 mr-2 float-right bubble-me">
+                    <div>{{message.message}}</div>
+                    <small class="float-right">{{message.sent_at | naturaltime}}</small>
+                </div>
+            </div>
+        {% endif %}
     {% else %}
-        <div class="row mt-2">
-            <div class="col-8 ml-2 float-left bubble-other text-white">
-                <div><strong>{{message.sender}}</strong></div>
-                <div>{{message.message}}</div>
-                <small class="float-right">{{message.sent_at | naturaltime}}</small>
+        {% if message.next_message.sender == message.sender or message.next_message == null %}
+            <div class="row mt-2">
+                <div class="col-8 ml-2 float-left bubble-other-continue text-white">
+                    <div><strong>{{message.sender}}</strong></div>
+                    <div>{{message.message}}</div>
+                </div>
             </div>
-        </div>
+        {% else %}
+            <div class="row mt-2">
+                <div class="col-8 ml-2 float-left bubble-other text-white">
+                    <div><strong>{{message.sender}}</strong></div>
+                    <div>{{message.message}}</div>
+                    <small class="float-right">{{message.sent_at | naturaltime}}</small>
+                </div>
+            </div>
+        {% endif %}
     {% endif %}
 {% endfor %}

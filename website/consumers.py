@@ -28,11 +28,16 @@ class websockets(WebsocketConsumer):
         """
         self.room = self.path.strip('/').split('/')[-1]
         league = League.objects.get(slug=self.room)
+        try:
+            latest = Message.objects.filter(league=league, sent_at__isnull=False).latest('sent_at')
+        except Message.DoesNotExist:
+            latest = None
         if text:
             m = Message.objects.create(
                     league=league,
                     sender=self.message.user,
                     message=text,
+                    previous_message=latest,
                     )
 
     def disconnect(self, message, **kwargs):

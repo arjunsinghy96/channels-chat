@@ -73,7 +73,7 @@ class Message(models.Model):
 @receiver(post_save, sender=Message)
 def send_msg_with_websocket(sender, instance, created, **kwargs):
     if created:
-        Group(instance.league.name).send({
+        Group(instance.league.slug).send({
             'text': instance.as_json(),
             })
 
