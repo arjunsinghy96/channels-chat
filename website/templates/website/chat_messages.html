@@ -21,7 +21,7 @@
             <div class="row mt-2">
                 <div class="col-8 ml-2 float-left bubble-other-continue text-white py-2">
                     {% if message.previous_message.sender != message.sender %}
-                        <div><strong>{{message.sender}}</strong></div>
+                        <div><strong><u>{{message.sender}}</u></strong></div>
                     {% endif %}
                     <div>{{message.message}}</div>
                 </div>
@@ -30,7 +30,7 @@
             <div class="row mt-2">
                 <div class="col-8 ml-2 float-left bubble-other text-white">
                     {% if message.previous_message.sender != message.sender %}
-                        <div><strong>{{message.sender}}</strong></div>
+                        <div><strong><u>{{message.sender}}</u></strong></div>
                     {% endif %}
                     <div>{{message.message}}</div>
                     <small class="float-right">{{message.sent_at | naturaltime}}</small>
