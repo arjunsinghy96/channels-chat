@@ -4,14 +4,17 @@
       <ul class="nav justified-content-end">
         {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-white" href="#"><i class="fas fa-users align-bottom"></i><span id="invite-count" class="px-1 badge badge-pill badge-danger align-top"></span></a>
+                <a class="nav-link text-white" href="#"><i class="fas fa-search"></i></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link text-white" href="{% url 'profile' %}"><i class="fas fa-cogs align-bottom"></i></a>
+                <a class="nav-link text-white" href="#"><i class="fas fa-users"></i><span id="invite-count" class="px-1 badge badge-pill badge-danger align-top"></span></a>
             </li>
             <li class="nav-item">
+                <a class="nav-link text-white" href="{% url 'profile' %}"><i class="fas fa-cog"></i></a>
+            </li>
+            <!-- <li class="nav-item">
                 <a class="nav-link text-white" href="{% url 'logout' %}"><i class="fas fa-sign-out-alt align-bottom"></i></a>
-            </li>
+            </li> -->
         {% else %}
             <li class="nav-item">
                 <a class="nav-link btn btn-outline-success btn-sm" href="{% url 'signup' %}">Signup</a>
