@@ -8,6 +8,13 @@ main{
     flex: 1 0 auto;
 }
 
+.light li.nav-item a.active {
+    border-radius: 0 !important;
+    background-color: #343a40;
+    outline-offset: 1px;
+    border-bottom: 4px solid white;
+}
+
 .bubble-me{
     border: 1px solid grey;
     border-radius: 15px 15px 0 15px;
