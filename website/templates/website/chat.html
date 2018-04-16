@@ -28,26 +28,30 @@
     </header>
 
     <main class="container bg-white border-left border-right mb-5 pb-5">
+        <p id="id_username" hidden>{{user.username}}</p>
         {% include 'website/chat_messages.html' %}
     </main>
 
     <footer class="fixed-bottom border-top py-2 bg-white" style="z-index: 999">
-        <div class="container">
-            <div class="row">
-                <div class="col-10">
-                    <input class="form-control" type="text" name="message">
-                </div>
-                <div class="col-2 align-self-center px-0 pb-2">
-                    <button class="btn btn-success btn-sm mt-1" style="border-radius:20px">Send</button>
+        <form id="id_form_msg_box">
+            <div class="container">
+                <div class="row">
+                    <div class="col-10">
+                        <input class="form-control" type="text" name="message" id="id_msg_box">
+                    </div>
+                    <div class="col-2 align-self-center px-0 pb-2">
+                        <button type="submit" class="btn btn-success btn-sm mt-1" style="border-radius:20px">Send</button>
+                    </div>
                 </div>
             </div>
-        </div>
+        </form>
     </footer>
     
     <!-- Load all javascript at the end -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/chat.js'%}"></script>
 
 
 
