@@ -19,15 +19,19 @@
     {% else %}
         {% if message.next_message.sender == message.sender or message.next_message == null %}
             <div class="row mt-2">
-                <div class="col-8 ml-2 float-left bubble-other-continue text-white">
-                    <div><strong>{{message.sender}}</strong></div>
+                <div class="col-8 ml-2 float-left bubble-other-continue text-white py-2">
+                    {% if message.previous_message.sender != message.sender %}
+                        <div><strong>{{message.sender}}</strong></div>
+                    {% endif %}
                     <div>{{message.message}}</div>
                 </div>
             </div>
         {% else %}
             <div class="row mt-2">
                 <div class="col-8 ml-2 float-left bubble-other text-white">
-                    <div><strong>{{message.sender}}</strong></div>
+                    {% if message.previous_message.sender != message.sender %}
+                        <div><strong>{{message.sender}}</strong></div>
+                    {% endif %}
                     <div>{{message.message}}</div>
                     <small class="float-right">{{message.sent_at | naturaltime}}</small>
                 </div>
