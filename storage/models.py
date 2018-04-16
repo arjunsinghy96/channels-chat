@@ -47,6 +47,11 @@ class Message(models.Model):
                                default=1,
                                on_delete=models.SET(sentient_user))
     message = models.TextField()
+    previous_message = models.OneToOneField(
+        'self',
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name="next_message")
     sent_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
@@ -64,7 +69,6 @@ class Message(models.Model):
                 'sent_at': self.sent_at.strftime('%b %m %Y, %H:%M %p'),
             }
         return json.dumps(rep)
-
 
 @receiver(post_save, sender=Message)
 def send_msg_with_websocket(sender, instance, created, **kwargs):
