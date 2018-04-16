@@ -10,6 +10,42 @@ from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 
 @login_required
+def accept_invite(request, id):
+    try:
+        invite = Invite.objects.get(pk=id)
+        if invite.user == request.user:
+            mem, created = Membership.objects.update_or_create(
+                league=invite.league,
+                user=invite.user
+                )
+            if created:
+                mem.permissions = invite.permissions
+                mem.save()
+            elif mem.permissions < invite.permissions:
+                mem.permissions = invite.permissions
+                mem.save()
+            invite.delete()
+        else:
+            messages.info(request, 'Unauthorized')
+        return redirect('invites')
+    except Invite.DoesNotExist:
+        messages.info(request, 'Invite does not exist')
+        return redirect('invites')
+
+@login_required
+def reject_invite(request, id):
+    try:
+        invite = Invite.objects.get(pk=id)
+        if invite.user == request.user:
+            invite.delete()
+        else:
+            messages.info(request, 'Unauthorized')
+        return redirect('invites')
+    except Invite.DoesNotExist:
+        messages.info(request, 'Invite does not exist')
+        return redirect('invites')
+
+@login_required
 def chat_page(request, slug):
     try:
         league = League.objects.get(slug=slug)
@@ -79,3 +115,10 @@ class LeagueDetailsView(LoginRequiredMixin, View):
         except League.DoesNotExist:
             messages.info('This league does not exist')
             return redirect('dashboard')
+
+class InvitesView(LoginRequiredMixin, View):
+    def get(self, request):
+        invites = Invite.objects.filter(user=request.user)
+        return render(request, 'website/invites.html', {
+            'invites': invites,
+        })
