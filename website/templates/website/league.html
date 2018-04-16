@@ -11,7 +11,7 @@
 
 
     <!-- Add additional CSS -->
-    {% load static %}
+    {% load static member_permissions %}
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 
@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="navbar-brand">
                     <a class="text-dark" href="{% url 'home' %}"><i class="fas fa-chevron-left align-text-bottom"></i></a>
-                    <span class="ml-3"><a class="text-dark" href="{% url 'league_detail' league.pk %}">{{ league.name }}</a></span>
+                    <span class="ml-3">{{ league.name }}</span>
                 </div>
             </div>
         </nav>
@@ -29,31 +29,27 @@
 
     <main class="container bg-white border-left border-right mb-5 pb-5">
         <p id="id_username" hidden>{{user.username}}</p>
-        {% include 'website/chat_messages.html' %}
-    </main>
-
-    <footer class="fixed-bottom border-top py-2 bg-white" style="z-index: 999">
-        <form id="id_form_msg_box">
-            <div class="container">
-                <div class="row">
-                    <div class="col-10">
-                        <input class="form-control" type="text" name="message" id="id_msg_box">
+        <div class="row justify-content-center">
+            <div class="col col-md-6">
+                {% for member in members %}
+                <div class="row border">
+                    <div class="col-3 col-lg-2">
+                        <img class="img-thumbnail rounded-circle" src="{{member.avatar.url}}">
                     </div>
-                    <div class="col-2 align-self-center px-0 pb-2">
-                        <button type="submit" class="btn btn-success btn-sm mt-1" style="border-radius:20px">Send</button>
+                    <div class="col-9 col-lg-10">
+                        <strong class="valign-center">{{member.username}}</strong>
+                        <small class="float-right">{% permission_level member league %}</small>
                     </div>
                 </div>
+                {% endfor %}
             </div>
-        </form>
-    </footer>
+        </div>
+    </main>
     
     <!-- Load all javascript at the end -->
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="{% static 'js/chat.js'%}"></script>
-
-
 
     {% block scripts %}
     <!-- block to add your own scripts -->

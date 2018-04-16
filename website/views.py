@@ -66,3 +66,16 @@ class LeagueView(LoginRequiredMixin, View):
         except:
             messages.info(request, 'League already exists')
         return redirect('dashboard')
+
+class LeagueDetailsView(LoginRequiredMixin, View):
+    def get(self, request, id):
+        try:
+            league = League.objects.get(pk=id)
+            members = league.members.all()
+            return render(request, 'website/league.html', {
+                'league': league,
+                'members': members,
+            })
+        except League.DoesNotExist:
+            messages.info('This league does not exist')
+            return redirect('dashboard')
