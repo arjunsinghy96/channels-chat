@@ -89,6 +89,7 @@ class Invite(models.Model):
     permissions = models.CharField(max_length=1,
                                    choices=PERMISSIONS,
                                    default='2')
+    sent_at = models.DateTimeField(auto_now=True)
     
     class Meta:
         unique_together = ("user", "league",)
