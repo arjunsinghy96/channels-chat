@@ -7,3 +7,14 @@ body {
 main{
     flex: 1 0 auto;
 }
+
+.bubble-me{
+    border: 1px solid grey;
+    border-radius: 15px 15px 0 15px;
+}
+
+.bubble-other{
+    border: 1px solid #369dd8;
+    border-radius: 0 15px 15px 15px;
+    background: #369dd8;
+}
