@@ -15,3 +15,13 @@ $('document').ready(function(){
         }
     })
 })
+
+$('#name-edit').click(function(){
+    $('#name').toggleClass('d-none');
+    $('#name-form').toggleClass('d-none');
+})
+
+$('#name-form-close').click(function(){
+    $('#name').toggleClass('d-none');
+    $('#name-form').toggleClass('d-none');
+})

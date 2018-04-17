@@ -1,15 +1,26 @@
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse, Http404
+from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.views import View
+from django.views.decorators.http import require_POST
 
 from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 from registration.models import User
+
+@login_required
+@require_POST
+def update_name(request):
+    if request.POST:
+        name = request.POST
+        request.user.first_name = name['first_name']
+        request.user.last_name = name['last_name']
+        request.user.save()
+        return redirect('profile')
 
 @login_required
 def kick_member(request, member_id, league_id):

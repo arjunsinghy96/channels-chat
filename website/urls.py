@@ -18,4 +18,9 @@ urlpatterns = [
         views.kick_member,
         name='kick_member',
         ),
+    path(
+        'update/name/',
+        views.update_name,
+        name='update_name',
+    )
 ]
