@@ -8,6 +8,7 @@ from django.views import View
 
 from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
+from registration.models import User
 
 @login_required
 def accept_invite(request, id):
@@ -122,3 +123,16 @@ class InvitesView(LoginRequiredMixin, View):
         return render(request, 'website/invites.html', {
             'invites': invites,
         })
+
+    def post(self, request):
+        username = request.POST['username']
+        permissions = request.POST['permissions']
+        invited = User.objects.get(username=username)
+        league = League.objects.get(name=request.POST['league_name'])
+        invite, created = Invite.objects.get_or_create(user=invited,
+                                              league=league)
+        print(permissions)
+        invite.permissions = permissions
+        invite.save()
+        print(invite.permissions)
+        return redirect('league_detail', id=league.pk)

@@ -36,3 +36,16 @@ main{
     border-radius: 15px;
     background: #369dd8;
 }
+
+.rotate-45{
+    animation: rotation-45 .33s forwards;
+}
+
+@keyframes rotation-45 {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(45deg);
+    }
+}

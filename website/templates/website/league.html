@@ -23,12 +23,51 @@
                     <a class="text-white" href="{% url 'home' %}"><i class="fas fa-chevron-left align-text-bottom"></i></a>
                     <span class="ml-3 text-white">{{ league.name }}</span>
                 </div>
+                <ul class="nav justified-content-end text-light">
+                    <li class="nav-item" id="addMember">
+                        <i class="fas fa-plus" id="addBtn"></i>
+                    </li>
+                </ul>
             </div>
         </nav>
     </header>
 
     <main class="container bg-white border-left border-right mb-5 pb-5">
         <p id="id_username" hidden>{{user.username}}</p>
+
+        <div class="row justify-content-center d-none mt-2 mb-3" id="inviteForm">
+            <div class="col">
+                <form action="{% url 'invites' %}" method="POST">
+                    {% csrf_token %}
+                    <div class="row justify-content-center">
+                        <input type="text" name="league_name" value="{{ league.name }}" hidden>
+                        <input type="text" name="username" class="col-md-6 form-control mb-2" placeholder="Username" autocomplete="off">
+                    </div>
+                    <div class="row justify-content-center">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="permissions" id="owner-permission" value="owner">
+                            <label class="form-check-label" for="permissions">owner</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="permissions" id="master-permission" value="master">
+                            <label class="form-check-label" for="permissions">master</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="permissions" id="member-permission" value="member">
+                            <label class="form-check-label" for="permissions">member</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="permissions" id="guest-permissoin" value="guest" checked>
+                            <label class="form-check-label" for="permissions">guest</label>
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type="submit" class="btn btn-outline-success btn-sm">Invite</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
         <div class="row justify-content-center">
             <div class="col col-md-6">
                 {% for member in members %}
@@ -50,6 +89,12 @@
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        $('#addMember').click(function(){
+            $('#inviteForm').toggleClass('d-none');
+            $('#addBtn').toggleClass('rotate-45');
+        })
+    </script>
 
     {% block scripts %}
     <!-- block to add your own scripts -->
