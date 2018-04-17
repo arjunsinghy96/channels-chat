@@ -36,8 +36,12 @@
         <form id="id_form_msg_box">
             <div class="container">
                 <div class="row">
-                    <div class="col-10">
+                    <div class="col-9">
                         <input class="form-control" type="text" name="message" id="id_msg_box">
+                    </div>
+                    <div class="col-1 pl-1 pl-md-4 pt-2">
+                        <input type="checkbox" name="urgent" hidden id="id-urgent">
+                        <div class="text-secondary align-bottom"><h5><i id="id-bolt" class="fas fa-bolt"></i></h5></div>                        
                     </div>
                     <div class="col-2 align-self-center px-0 pb-2">
                         <button type="submit" class="btn btn-success btn-sm mt-1" style="border-radius:20px">Send</button>

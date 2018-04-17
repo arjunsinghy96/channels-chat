@@ -36,3 +36,9 @@ $('#id_form_msg_box').on('submit', function(e) {
     $('#id_msg_box').val('');
     return false;
 });
+
+$('#id-bolt').click(function(){
+    $(this).toggleClass('text-warning');
+    var urgent = $('#id-urgent')
+    urgent.attr('checked', !urgent.attr('checked'));
+})
