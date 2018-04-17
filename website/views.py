@@ -109,9 +109,11 @@ class LeagueDetailsView(LoginRequiredMixin, View):
         try:
             league = League.objects.get(pk=id)
             members = league.members.all()
+            kick_perm = Membership.objects.get(league=league, user=request.user).get_permissions_display()
             return render(request, 'website/league.html', {
                 'league': league,
                 'members': members,
+                'kick_perm': kick_perm,
             })
         except League.DoesNotExist:
             messages.info('This league does not exist')
