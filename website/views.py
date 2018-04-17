@@ -1,4 +1,5 @@
-from django.http import JsonResponse
+from django.core.exceptions import PermissionDenied
+from django.http import JsonResponse, Http404
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,6 +10,26 @@ from django.views import View
 from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 from registration.models import User
+
+@login_required
+def kick_member(request, member_id, league_id):
+    if request.user.id == member_id:
+        messages.info(request, 'Cannot kick yourself')
+        return redirect('dashboard')
+    try:
+        perms = Membership.objects.get(user=request.user, league=league_id)
+        print(perms.can_kick())
+        if perms.can_kick():
+            try:
+                membership = Membership.objects.get(user=member_id, league=league_id)
+                membership.delete()
+                return redirect('league_detail', id=league_id)
+            except:
+                raise Http404
+        else:
+            raise PermissionDenied
+    except Membership.DoesNotExist:
+        raise PermissionDenied
 
 @login_required
 def accept_invite(request, id):
@@ -116,7 +137,10 @@ class LeagueDetailsView(LoginRequiredMixin, View):
                 'kick_perm': kick_perm,
             })
         except League.DoesNotExist:
-            messages.info('This league does not exist')
+            messages.info(request, 'This league does not exist')
+            return redirect('dashboard')
+        except Membership.DoesNotExist:
+            messages.info(request, 'Forbidden: Not member')
             return redirect('dashboard')
 
 class InvitesView(LoginRequiredMixin, View):

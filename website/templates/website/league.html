@@ -79,7 +79,7 @@
                         <span class="font-weight-bold">{{member.username}}</span><br>
                         <small class="">{% permission_level member league %}</small>
                         {% if kick_perm == 'owner' or kick_perm == 'master' %}
-                        <a href="#"><i class="far fa-trash-alt text-danger float-right"></i></a>
+                        <a href="{% url 'kick_member' league.pk member.pk %}"><i class="far fa-trash-alt text-danger float-right"></i></a>
                         {% endif %}
                     </div>
                 </div>

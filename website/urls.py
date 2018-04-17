@@ -13,4 +13,9 @@ urlpatterns = [
     path('invites/count/', views.invite_count, name='invite_count'),
     path('chat/<slug:slug>/', views.chat_page, name='chat'),
     path('league/<int:id>/details/', views.LeagueDetailsView.as_view(), name='league_detail'),
+    path(
+        'league/<int:league_id>/kick/<int:member_id>/',
+        views.kick_member,
+        name='kick_member',
+        ),
 ]

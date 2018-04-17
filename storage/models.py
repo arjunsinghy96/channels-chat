@@ -39,7 +39,11 @@ class Membership(models.Model):
         return '{} in {}'.format(self.user, self.league)
     
     def can_send(self):
-        return self.permissions != 'guest'
+        return self.permissions != '1'
+    
+    def can_kick(self):
+        print(self.permissions)
+        return self.permissions in ['4', '3']
 
 class Message(models.Model):
     league = models.ForeignKey(League, related_name='messages', on_delete=models.CASCADE)
