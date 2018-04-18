@@ -32,8 +32,14 @@ if(socket.readyState == socket.OPEN) socket.onopen();
 
 $('#id_form_msg_box').on('submit', function(e) {
     var msg=$('#id_msg_box').val();
-    socket.send(msg);
+    var urgent = $('#id-urgent');
+    data = {
+        msg: msg,
+        urgent: Boolean(urgent.attr('checked')),
+    }
+    socket.send(JSON.stringify(data));
     $('#id_msg_box').val('');
+    urgent.attr('checked', !urgent.attr('checked'))
     return false;
 });
 

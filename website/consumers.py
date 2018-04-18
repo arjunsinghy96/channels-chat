@@ -1,3 +1,5 @@
+import json
+
 from channels.generic.websockets import WebsocketConsumer
 from channels import Group
 
@@ -26,19 +28,22 @@ class websockets(WebsocketConsumer):
         Actions on receiving a message on websocket.
         Save the Message with appropriate League and message
         """
+        data = json.loads(text)
         self.room = self.path.strip('/').split('/')[-1]
         league = League.objects.get(slug=self.room)
         try:
             latest = Message.objects.filter(league=league, sent_at__isnull=False).latest('sent_at')
         except Message.DoesNotExist:
             latest = None
-        if text:
+        if data['msg']:
             m = Message.objects.create(
                     league=league,
                     sender=self.message.user,
-                    message=text,
+                    message=data['msg'],
                     previous_message=latest,
                     )
+            if data['urgent']:
+                print('Urgent msg sent: Will be sent to mobile and email')
 
     def disconnect(self, message, **kwargs):
         """
