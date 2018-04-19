@@ -33,4 +33,9 @@ urlpatterns = [
         views.search_user,
         name='search_users'
     ),
+    path(
+        'search/league/',
+        views.search_league,
+        name='search_league'
+    ),
 ]

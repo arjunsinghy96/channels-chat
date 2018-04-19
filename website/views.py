@@ -21,6 +21,15 @@ def search_user(request):
     usernames = [user.username for user in users]
     return JsonResponse(usernames, safe=False)
 
+def search_league(request):
+    q = request.GET.get('q', '')
+    if not q:
+        return JsonResponse([], safe=False)
+    leagues = League.objects.only('name').filter(
+                                              name__icontains=q)[:10]
+    leagues = [league.name for league in leagues]
+    return JsonResponse(leagues, safe=False)
+
 @login_required
 @require_POST
 def update_phone(request):
