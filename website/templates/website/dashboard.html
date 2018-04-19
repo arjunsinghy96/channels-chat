@@ -43,7 +43,7 @@
                     <h5 class="text-center"> Your Leagues </h5>
                     <div class="list-group">
                     {% for league in leagues %}
-                        <a class="list-group-item list-group-item-action" href="{% url 'chat' league.slug %}">{{league.name}}</a>
+                        <a class="list-group-item list-group-item-action" href="{% url 'chat' league.slug %}">{{league.name}}<span id="badge-{{league.slug}}" class="float-right d-none"><i class="fas fa-exclamation-circle text-success"></i></span></a>
                     {% endfor %}
                     </div>
                 </div>
@@ -63,7 +63,12 @@
 
     socket.onmessage = function(msg) {
     var data = JSON.parse(msg.data);
-    console.log(data);
+    console.log(data)
+    if(data.type == "message:new"){
+        var message = data.content.message;
+        console.log(message.league);
+        $('#badge-'+ message.league).toggleClass('d-none');
+    }
 };
 
     if(socket.readyState == socket.OPEN) socket.onopen();
