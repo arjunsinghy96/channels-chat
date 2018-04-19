@@ -12,6 +12,15 @@ from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 from registration.models import User
 
+def search_user(request):
+    q = request.GET.get('q', '')
+    if not q:
+        return JsonResponse([], safe=False)
+    users = User.objects.only('username').filter(
+                                              username__icontains=q)[:10]
+    usernames = [user.username for user in users]
+    return JsonResponse(usernames, safe=False)
+
 @login_required
 @require_POST
 def update_phone(request):

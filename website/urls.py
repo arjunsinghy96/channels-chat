@@ -27,5 +27,10 @@ urlpatterns = [
         'update/phone/',
         views.update_phone,
         name='update_phone',
-    )
+    ),
+    path(
+        'search/user/',
+        views.search_user,
+        name='search_users'
+    ),
 ]
