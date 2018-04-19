@@ -25,3 +25,13 @@ $('#name-form-close').click(function(){
     $('#name').toggleClass('d-none');
     $('#name-form').toggleClass('d-none');
 })
+
+$('#phone-edit').click(function(){
+    $('#phone').toggleClass('d-none');
+    $('#phone-form').toggleClass('d-none');
+})
+
+$('#phone-form-close').click(function(){
+    $('#phone').toggleClass('d-none');
+    $('#phone-form').toggleClass('d-none');
+})

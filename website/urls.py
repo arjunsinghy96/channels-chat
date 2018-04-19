@@ -22,5 +22,10 @@ urlpatterns = [
         'update/name/',
         views.update_name,
         name='update_name',
+    ),
+    path(
+        'update/phone/',
+        views.update_phone,
+        name='update_phone',
     )
 ]

@@ -14,6 +14,17 @@ from registration.models import User
 
 @login_required
 @require_POST
+def update_phone(request):
+    if request.POST:
+        post = request.POST
+        print(post)
+        number = post['country'] + post['number']
+        request.user.phone_no = number
+        request.user.save()
+        return redirect('profile')
+
+@login_required
+@require_POST
 def update_name(request):
     if request.POST:
         name = request.POST
