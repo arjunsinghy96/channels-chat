@@ -4,7 +4,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.dispatch import receiver
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, post_delete
 from channels import Group
 
 from storage.utils import message_websocket_json
@@ -109,3 +109,25 @@ def send_new_invite_msg(sender, instance, created, **kwargs):
                 'content': {}
             })
         })
+
+@receiver(post_delete, sender=Membership)
+def send_delete_membership_ws(sender, instance, **kwargs):
+    Group(instance.league.slug).send({
+        'text': json.dumps({
+            'type': 'league:kicked',
+            'content':{
+                'member': instance.user.username,
+                'league_name': instance.league.name,
+                'league_slug': instance.league.slug,
+            }
+        })
+    })
+    Group(instance.user.username).send({
+        'text': json.dumps({
+            'type': 'league:kicked:self',
+            'content': {
+                'league_name': instance.league.name,
+                'league_slug': instance.league.slug,
+            }
+        })
+    })

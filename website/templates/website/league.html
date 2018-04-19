@@ -97,6 +97,24 @@
             $('#inviteForm').toggleClass('d-none');
             $('#addBtn').toggleClass('rotate-45');
         })
+
+        var addr = 'ws://' + window.location.host + window.location.pathname;
+
+        var socket = new WebSocket(addr);
+
+        socket.onmessage = function(msg) {
+            var data = JSON.parse(msg.data);
+            console.log(data)
+            if(data.type == "league:kicked"){
+                var message = data.content;
+                console.log(message.member + " was kicked form the league")
+            }
+            else if(data.type == "league:kicked:self"){
+                console.log("you were kicked form this league")
+            }
+        }
+
+        if(socket.readyState == socket.OPEN) socket.onopen();
     </script>
 
     {% block scripts %}

@@ -83,3 +83,36 @@ class dashboardWebsockets(WebsocketConsumer):
         Run when a socket is disconnected
         """
         pass
+
+class leagueWebsockets(WebsocketConsumer):
+
+    http_user = True
+
+    def connection_groups(self, **kwargs):
+        """
+        Returns the list of groups a connection is to be added.
+        """
+        league = League.objects.get(pk=int(kwargs['id']))
+        groups = [league.slug]
+        groups.append('all_notify')
+        groups.append(self.message.user.username)
+        return groups
+
+    def connect(self, message, **kwargs):
+        """
+        Run when a new websocket is connected
+        """
+        message.reply_channel.send({'accept': True})
+
+    def receive(self, text=None, bytes=None, **kwargs):
+        """
+        Actions on receiving a message on websocket.
+        Save the Message with appropriate League and message
+        """
+        pass
+
+    def disconnect(self, message, **kwargs):
+        """
+        Run when a socket is disconnected
+        """
+        pass
