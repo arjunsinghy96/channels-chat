@@ -1,3 +1,5 @@
+window.searchTimeout = 0
+
 $('document').ready(function(){
     $.ajax({
         method: 'GET',
@@ -15,6 +17,26 @@ $('document').ready(function(){
         }
     })
 })
+
+var search_league = function(key){
+    var results = $.ajax({
+        method: 'GET',
+        url: '/search/league/?q=' + $('#league-search-box').val(),
+        success: function(results){
+            if(results.length > 0){
+                var dd = $('#league-search-dropdown');
+                dd.html('');
+                results.forEach(function(name){
+                    dd.append('<a class="dropdown-item text-center clickable-results">' + name + '</a>')
+                })
+            }
+            else{
+                $('#league-search-dropdown').html('')
+                $('#league-search-dropdown').append('<a class="dropdown-item text-center" href="#">' + 'No results' + '</a>')
+            }
+        }
+    })
+}
 
 $('#name-edit').click(function(){
     $('#name').toggleClass('d-none');
@@ -42,4 +64,13 @@ $('#show-search').click(function(){
 
 $('#close-search').click(function(){
     $('#search-box').toggleClass('d-none');
+})
+
+$('input[name=league-name]').keyup(function(){
+    clearTimeout(searchTimeout)
+    window.searchTimeout = setTimeout(
+        search_league,
+        500,
+        $(this).val()
+    )
 })

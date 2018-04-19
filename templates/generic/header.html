@@ -26,7 +26,12 @@
 <div class="container d-none" id="search-box">
     <div class="row my-1">
         <div class="col-11">
-            <input class="form-control border-straight border-dark" type="text" placeholder="Search Leagues" name="league-name">
+            <div class="dropdown">
+                <input class="form-control border-straight border-dark" type="text" placeholder="Search Leagues" name="league-name" data-toggle="dropdown" id="league-search-box">
+                <div class="dropdown-menu" aria-labelledby="league-search-box" id='league-search-dropdown'>
+                    <a class="dropdown-item text-center" href="#">No results</a>
+                </div>
+            </div>
         </div>
         <div class="col-1 px-0 pt-2">
             <h5 id="close-search"><i class="fas fa-times text-danger"></i></h5>
