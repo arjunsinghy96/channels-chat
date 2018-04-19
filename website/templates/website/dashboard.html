@@ -55,4 +55,18 @@
     </div>
 </div>
 
+<script>
+    // var username = $("#id_username").text();
+    var addr = 'ws://' + window.location.host + window.location.pathname;
+
+    var socket = new WebSocket(addr);
+
+    socket.onmessage = function(msg) {
+    var data = JSON.parse(msg.data);
+    console.log(data);
+};
+
+    if(socket.readyState == socket.OPEN) socket.onopen();
+</script>
+
 {% endblock %}

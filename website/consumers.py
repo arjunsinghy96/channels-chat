@@ -13,14 +13,14 @@ class websockets(WebsocketConsumer):
         """
         Returns the list of groups a connection is to be added.
         """
-        return ['all_notify'] # a common group for every websocket
+        groups = []
+        groups.append(kwargs['room'])
+        return groups
 
     def connect(self, message, **kwargs):
         """
         Run when a new websocket is connected
         """
-        self.room = self.path.strip('/').split('/')[-1]
-        Group(self.room).add(message.reply_channel)
         message.reply_channel.send({'accept': True})
 
     def receive(self, text=None, bytes=None, **kwargs):
@@ -49,5 +49,36 @@ class websockets(WebsocketConsumer):
         """
         Run when a socket is disconnected
         """
-        self.room = self.path.strip('/').split('/')[-1]
-        Group(self.room).discard(message.reply_channel)
+        pass
+
+class dashboardWebsockets(WebsocketConsumer):
+
+    http_user = True
+
+    def connection_groups(self, **kwargs):
+        """
+        Returns the list of groups a connection is to be added.
+        """
+        leagues = self.message.user.member_of.only('name').all()
+        groups = [league.slug for league in leagues]
+        groups.append('all_notify')
+        return groups
+
+    def connect(self, message, **kwargs):
+        """
+        Run when a new websocket is connected
+        """
+        message.reply_channel.send({'accept': True})
+
+    def receive(self, text=None, bytes=None, **kwargs):
+        """
+        Actions on receiving a message on websocket.
+        Save the Message with appropriate League and message
+        """
+        pass
+
+    def disconnect(self, message, **kwargs):
+        """
+        Run when a socket is disconnected
+        """
+        pass
