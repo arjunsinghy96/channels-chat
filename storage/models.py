@@ -7,6 +7,8 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from channels import Group
 
+from storage.utils import message_websocket_json
+
 def sentient_user():
     User = get_user_model()
     return User.objects.get_or_create(username='default_user')[0]
@@ -78,8 +80,8 @@ class Message(models.Model):
 def send_msg_with_websocket(sender, instance, created, **kwargs):
     if created:
         Group(instance.league.slug).send({
-            'text': instance.as_json(),
-            })
+            'text': message_websocket_json(instance),
+        })
 
 class Invite(models.Model):
     PERMISSIONS = (

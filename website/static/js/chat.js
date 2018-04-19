@@ -5,27 +5,33 @@ var socket = new WebSocket(addr);
 
 socket.onmessage = function(msg) {
     var data = JSON.parse(msg.data);
-    console.log(data);
-    if(username === data.handle){
-        var message = `
-            <div class="row mt-2 justify-content-end">
-                <div class="col-8 mr-2 float-right bubble-me">
-                    <div>${data.message}</div>
-                    <small class="float-right">${data.sent_at}</small>
-                </div>
-            </div>`
+    if(data.type == "message:new"){
+        var message = data.content.message
+        if(message.type == "text"){
+            if(username === message.sender){
+                var message = `
+                    <div class="row mt-2 justify-content-end">
+                        <div class="col-8 mr-2 float-right bubble-me">
+                            <div>${message.text}</div>
+                            <small class="float-right">${message.sent_at}</small>
+                        </div>
+                    </div>`
+            }
+            else{
+                var message = `
+                    <div class="row mt-2">
+                        <div class="col-8 ml-2 float-left bubble-other text-white">
+                            <div><strong>${message.sender}</strong></div>
+                            <div>${message.text}</div>
+                            <small class="float-right">${message.sent_at}}</small>
+                        </div>
+                    </div>`
+            }
+            $('main').append(message);
+        }
     }
-    else{
-        var message = `
-            <div class="row mt-2">
-                <div class="col-8 ml-2 float-left bubble-other text-white">
-                    <div><strong>${data.handle}</strong></div>
-                    <div>${data.message}</div>
-                    <small class="float-right">${data.sent_at}}</small>
-                </div>
-            </div>`
-    }
-    $('main').append(message);
+    
+    
 };
 
 if(socket.readyState == socket.OPEN) socket.onopen();
