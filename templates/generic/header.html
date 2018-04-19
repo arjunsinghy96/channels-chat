@@ -4,7 +4,7 @@
       <ul class="nav justified-content-end">
         {% if user.is_authenticated %}
             <li class="nav-item">
-                <a class="nav-link text-white" href="#"><i class="fas fa-search"></i></a>
+                <a id="show-search" class="nav-link text-white"><i class="fas fa-search"></i></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-white" href="{% url 'invites' %}"><i class="fas fa-users"></i><span id="invite-count" class="px-1 badge badge-pill badge-danger align-top"></span></a>
@@ -23,3 +23,13 @@
       </ul>
     </div>
 </nav>
+<div class="container d-none" id="search-box">
+    <div class="row my-1">
+        <div class="col-11">
+            <input class="form-control border-straight border-dark" type="text" placeholder="Search Leagues" name="league-name">
+        </div>
+        <div class="col-1 px-0 pt-2">
+            <h5 id="close-search"><i class="fas fa-times text-danger"></i></h5>
+        </div>
+    </div>
+</div>

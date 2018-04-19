@@ -35,3 +35,11 @@ $('#phone-form-close').click(function(){
     $('#phone').toggleClass('d-none');
     $('#phone-form').toggleClass('d-none');
 })
+
+$('#show-search').click(function(){
+    $('#search-box').toggleClass('d-none');
+})
+
+$('#close-search').click(function(){
+    $('#search-box').toggleClass('d-none');
+})
