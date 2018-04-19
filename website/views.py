@@ -197,8 +197,6 @@ class InvitesView(LoginRequiredMixin, View):
         league = League.objects.get(name=request.POST['league_name'])
         invite, created = Invite.objects.get_or_create(user=invited,
                                               league=league)
-        print(permissions)
         invite.permissions = permissions
         invite.save()
-        print(invite.permissions)
         return redirect('league_detail', id=league.pk)

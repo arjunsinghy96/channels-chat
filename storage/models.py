@@ -99,3 +99,13 @@ class Invite(models.Model):
     
     class Meta:
         unique_together = ("user", "league",)
+
+@receiver(post_save, sender=Invite)
+def send_new_invite_msg(sender, instance, created, **kwargs):
+    if created:
+        Group(instance.user.username).send({
+            'text': json.dumps({
+                'type': 'invite:new',
+                'content': {}
+            })
+        })
