@@ -62,6 +62,7 @@ class dashboardWebsockets(WebsocketConsumer):
         leagues = self.message.user.member_of.only('name').all()
         groups = [league.slug for league in leagues]
         groups.append('all_notify')
+        groups.append(self.message.user.username)
         return groups
 
     def connect(self, message, **kwargs):
