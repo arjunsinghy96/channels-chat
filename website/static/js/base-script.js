@@ -14,6 +14,7 @@ $('document').ready(function(){
             else {
                 $('#invite-count').html(data.count);
             }
+            $('#invite-count').attr('data-count', data.count)
         }
     })
 })

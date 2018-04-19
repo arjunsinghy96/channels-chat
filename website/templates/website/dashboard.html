@@ -69,6 +69,12 @@
         console.log(message.league);
         $('#badge-'+ message.league).toggleClass('d-none');
     }
+    else if(data.type == "invite:new"){
+        var invites = $('#invite-count')
+        count = parseInt(invites.attr('data-count')) + 1
+        invites.attr('data-count', count)
+        invites.html(count)
+    }
 };
 
     if(socket.readyState == socket.OPEN) socket.onopen();
