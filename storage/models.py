@@ -134,3 +134,15 @@ def send_delete_membership_ws(sender, instance, **kwargs):
             }
         })
     })
+
+@receiver(post_save, sender=Notification)
+def send_notification_ws(sender, instance, created, **kwargs):
+    if created:
+        Group('all_notify').send({
+            'text': json.dumps({
+                'type': 'notify:new',
+                'content': {
+                    'text': instance.text,
+                }
+            })
+        })
