@@ -44,7 +44,6 @@ class Membership(models.Model):
         return self.permissions != '1'
     
     def can_kick(self):
-        print(self.permissions)
         return self.permissions in ['4', '3']
 
 class Message(models.Model):
