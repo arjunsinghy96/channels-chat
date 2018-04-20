@@ -12,7 +12,12 @@
         <a class="nav-link active text-light" id="league-tab" data-toggle="tab" href="#league" role="tab" aria-controls="league" aria-selected="true">League</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="true">Notification</a>
+        <a class="nav-link text-light" id="notification-tab" data-toggle="tab" href="#notification" role="tab" aria-controls="notification" aria-selected="true">
+            Notification
+            <span id="badge-notify" class="d-none">
+                <i class="fas fa-exclamation-circle text-success"></i>
+            </span>
+        </a>
     </li>
 </ul>
 
@@ -50,8 +55,18 @@
             </div>
         </div>
     </div>
+    <!--- Home for all the notification -->
     <div class="tab-pane fade" id="notification" role="tabpanel" aria-labelledby="notification-tab">
-
+        <div class="container" id="notification-list">
+            {% for notice in notifications %}
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 border-bottom">
+                    <p>{{notice.text}}</p>
+                    <small class="float-right">{{notice.timestamp}}</small>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
     </div>
 </div>
 
@@ -73,6 +88,17 @@
         count = parseInt(invites.attr('data-count')) + 1
         invites.attr('data-count', count)
         invites.html(count)
+    }
+    else if(data.type == "notify:new"){
+        $('#badge-notify').toggleClass('d-none');
+        var notice = `
+            <div class="row justify-content-center">
+                <div class="col-12 col-md-6 border-bottom">
+                    <p>` + data.content.text + `</p>
+                    <small class="float-right">` + new Date(Date.now()).toDateString() + `</small>
+                </div>
+            </div>`
+        $('#notification-list').prepend(notice);
     }
 };
 

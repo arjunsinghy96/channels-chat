@@ -14,7 +14,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.utils.decorators import method_decorator
 
 from website.forms import LeagueForm
-from storage.models import League, Membership, Invite
+from storage.models import League, Membership, Invite, Notification
 from registration.models import User
 
 
@@ -186,8 +186,13 @@ class ProfileView(LoginRequiredMixin, View):
 class DashboardView(LoginRequiredMixin, View):
     def get(self, request):
         leagues = request.user.member_of.all()
+        notifications = Notification.objects.order_by('-timestamp')[:20]
         form = LeagueForm()
-        return render(request, 'website/dashboard.html', {'leagues': leagues, 'form': form})
+        return render(request, 'website/dashboard.html', {
+            'leagues': leagues,
+            'form': form,
+            'notifications': notifications,
+            })
 
 class LeagueView(LoginRequiredMixin, View):
     def post(self, request):
