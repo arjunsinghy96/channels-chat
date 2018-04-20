@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views import View
+from django.contrib.sites.shortcuts import get_current_site
 
 from registration.models import User
 from registration.forms import UserCreationForm, LoginForm
@@ -24,6 +25,12 @@ class PasswordResetView(View):
     def post(self, request):
         form = PasswordResetForm(request.POST)
         if form.is_valid():
+            opts = {
+                'domain_override': get_current_site(request).name,
+                'use_https': request.is_secure(),
+                'from_email': 'noreply@' + get_current_site(request).name
+            }
+            form.save(**opts)
             message = "You will receive a password reset link shortly at you email {}. If you do not receive it please check yor spam folder and try again.".format(request.POST['email'])
             messages.info(request, message)
             return redirect('home')
