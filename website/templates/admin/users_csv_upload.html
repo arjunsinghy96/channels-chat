@@ -1,0 +1,14 @@
+{% extends 'admin/base.html' %}
+
+{% block branding %}
+<h1>YAM Admin</h1>
+{% endblock %}
+
+{% block content %}
+<h4>Upload User Dataset</h4>
+<p>Upload a csv file with user dataset to create new users.</p>
+<form action="{% url 'admin_user_upload' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="user_dataset">
+    <input type="submit" class="btn-primary btn-sm" value="Upload">
+</form>
+{% endblock %}

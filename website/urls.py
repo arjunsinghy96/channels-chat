@@ -38,4 +38,9 @@ urlpatterns = [
         views.search_league,
         name='search_league'
     ),
+    path(
+        'admin/upload/users/',
+        views.UserDatasetView.as_view(),
+        name="admin_user_upload"
+    ),
 ]

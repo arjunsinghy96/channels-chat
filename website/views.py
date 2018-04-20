@@ -1,4 +1,7 @@
+import csv
+
 from django.core.exceptions import PermissionDenied
+from django.db.utils import IntegrityError
 from django.http import JsonResponse, Http404, HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -7,10 +10,49 @@ from django.contrib.auth.decorators import login_required
 from django.utils.text import slugify
 from django.views import View
 from django.views.decorators.http import require_POST
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
 
 from website.forms import LeagueForm
 from storage.models import League, Membership, Invite
 from registration.models import User
+
+
+class UserDatasetView(View):
+
+    @method_decorator(staff_member_required)
+    def get(self, request):
+        return render(request, 'admin/users_csv_upload.html')
+
+    @method_decorator(staff_member_required)
+    def post(self, request):
+        print(request.FILES['user_dataset'])
+        fieldnames = ['username', 'email', 'first_name', 'last_name', 'phone_no', 'is_staff', 'password']
+        reader = csv.DictReader(request.FILES['user_dataset'].read().decode('utf-8').splitlines())
+        errors = []
+        count =0 
+        for row in reader:
+            try:
+                user = User.objects.create(
+                    username=row['username'],
+                    email=row['email'],
+                    phone_no=row['phone_no'],
+                    first_name=row['first_name'],
+                    last_name=row['last_name'],
+                    is_staff=True if row['is_staff'] == '1' else False,
+                    is_active=True
+                )
+                user.set_password(row['password'])
+                user.save()
+                count += 1
+            except IntegrityError:
+                errors.append(row)
+            
+        return render(request, 'admin/users_csv_uploaded.html', {
+            'count': count,
+            'errors': errors,
+        })
+
 
 def search_user(request):
     q = request.GET.get('q', '')
