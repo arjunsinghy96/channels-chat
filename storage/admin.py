@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from storage.models import League, Membership, Message, Invite
+from storage.models import League, Membership, Message, Invite, Notification
 
 @admin.register(League)
 class LeagueAdmin(admin.ModelAdmin):
@@ -20,3 +20,7 @@ class Message(admin.ModelAdmin):
 class InviteAdmin(admin.ModelAdmin):
     list_display = ('league', 'user', 'permissions')
     search_fields = ('league__name', 'user__username')
+
+@admin.register(Notification)
+class NotificationAdmin(admin.ModelAdmin):
+    list_display = ('text', 'timestamp')
