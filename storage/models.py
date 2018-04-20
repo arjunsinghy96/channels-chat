@@ -99,6 +99,10 @@ class Invite(models.Model):
     class Meta:
         unique_together = ("user", "league",)
 
+class Notification(models.Model):
+    text = models.CharField(max_length=256)
+    timestamp = models.DateTimeField(auto_now_add=True)
+
 @receiver(post_save, sender=Invite)
 def send_new_invite_msg(sender, instance, created, **kwargs):
     if created:
