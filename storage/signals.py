@@ -8,7 +8,6 @@ from storage.models import League, Membership, Invite, Notification, Message
 
 @receiver(post_save, sender=Message)
 def send_msg_with_websocket(sender, instance, created, **kwargs):
-    print('receive signals atleast')
     if created:
         Group(instance.league.slug).send({
             'text': message_websocket_json(instance),

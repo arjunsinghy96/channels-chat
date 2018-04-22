@@ -1,9 +1,17 @@
 import json
 
 from channels.generic.websockets import WebsocketConsumer
-from channels import Group
+from channels import Channel, Group
 
 from storage.models import League, Message
+from yam.utils import send_sms
+
+def send_sms_with_plivo(message):
+    league = League.objects.get(pk=message.content['text']['league_id'])
+    m = Message.objects.get(pk=message.content['text']['message_id'])
+    text = league.name + ': ' + m.message
+    for member in league.members.all():
+        send_sms(member.phone_no, text)
 
 class websockets(WebsocketConsumer):
 
@@ -43,7 +51,12 @@ class websockets(WebsocketConsumer):
                     previous_message=latest,
                     )
             if data['urgent']:
-                print('Urgent msg sent: Will be sent to mobile and email')
+                Channel('plivo').send({
+                    'text': {
+                        'message_id': m.pk,
+                        'league_id': league.pk,
+                    }
+                })
 
     def disconnect(self, message, **kwargs):
         """
