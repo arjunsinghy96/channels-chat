@@ -17,6 +17,37 @@ from website.forms import LeagueForm
 from storage.models import League, Membership, Invite, Notification
 from registration.models import User
 
+permissions = {
+    'owner': '4',
+    'master': '3',
+    'member': '2',
+    'guest': '1',
+}
+
+@staff_member_required
+@require_POST
+def upload_membership_csv(request):
+    if request.POST:
+        fieldnames = ['league_name', 'username', 'permissions']
+        reader = csv.DictReader(request.FILES['membership'].read().decode('utf-8').splitlines())
+        errors = []
+        count = 0
+        for row in reader:
+            try:
+                league = League.objects.get(name=row['league_name'])
+                user = User.objects.get(username=row['username'])
+                membership = Membership.objects.get_or_create(
+                    league=league,
+                    user=user,
+                    permissions=permissions[row['permissions']]
+                )
+                count += 1
+            except:
+                errors.append(row)
+        return render(request, 'admin/membership_csv_uploaded.html',{
+            'count': count,
+            'errors': errors,
+        })
 
 class UserDatasetView(View):
 

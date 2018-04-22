@@ -1,0 +1,23 @@
+{% extends 'admin/base.html' %}
+
+{% block extrahead %}
+<link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+{% endblock %}
+
+{% block branding %}
+<h1>YAM Admin</h1>
+{% endblock %}
+
+{% block content %}
+<h4>{{count}} new memberships created</h4>
+{% if errors %}
+<h5>Encountered errors with:</h5>
+    {% for membership in errors %}
+    <p>{{membership.league_name}} - {{membership.username}}</p>
+    {% endfor %}
+<div>
+{% endif %}
+    <a class="btn btn-primary text-white" href="{% url 'admin_user_upload' %}">Add More</a>
+</div>
+{% endblock %}

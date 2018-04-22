@@ -5,10 +5,20 @@
 {% endblock %}
 
 {% block content %}
-<h4>Upload User Dataset</h4>
+<h2>Upload User Dataset</h2>
 <p>Upload a csv file with user dataset to create new users.</p>
 <form action="{% url 'admin_user_upload' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
     <input type="file" name="user_dataset">
+    <input type="submit" class="btn-primary btn-sm" value="Upload">
+</form>
+
+<br>
+
+<h2>Upload Membership Dataset</h2>
+<p>Upload a csv file with membership dataset to create new memberships.</p>
+<p>Make sure you csv have 'league_name', 'username', 'permissions'.</p>
+<form action="{% url 'admin_membership_upload' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="membership">
     <input type="submit" class="btn-primary btn-sm" value="Upload">
 </form>
 {% endblock %}
