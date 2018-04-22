@@ -74,6 +74,17 @@ class Message(models.Model):
             }
         return json.dumps(rep)
 
+    def get_sms_text(self):
+        """
+        Returns a string with to be used as sms text
+        """
+        text = "{}: {} says: {}".format(
+                            self.league.name,
+                            self.sender.first_name,
+                            self.message
+                            )
+        return text
+
 
 class Invite(models.Model):
     PERMISSIONS = (

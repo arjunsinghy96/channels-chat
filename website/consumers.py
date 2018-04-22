@@ -11,7 +11,7 @@ def send_sms_with_plivo(message):
     m = Message.objects.get(pk=message.content['text']['message_id'])
     text = league.name + ': ' + m.message
     for member in league.members.all():
-        send_sms(member.phone_no, text)
+        send_sms(member.phone_no, m.get_sms_text())
 
 class websockets(WebsocketConsumer):
 
