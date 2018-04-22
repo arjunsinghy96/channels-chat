@@ -3,15 +3,12 @@ import json
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.db import models
-from django.dispatch import receiver
-from django.db.models.signals import post_save, post_delete
-from channels import Group
 
-from storage.utils import message_websocket_json
 
 def sentient_user():
     User = get_user_model()
     return User.objects.get_or_create(username='default_user')[0]
+
 
 class League(models.Model):
     name = models.CharField(max_length=128, unique=True)
@@ -22,6 +19,7 @@ class League(models.Model):
     
     def __str__(self):
         return self.name
+
 
 class Membership(models.Model):
     PERMISSIONS = (
@@ -45,6 +43,7 @@ class Membership(models.Model):
     
     def can_kick(self):
         return self.permissions in ['4', '3']
+
 
 class Message(models.Model):
     league = models.ForeignKey(League, related_name='messages', on_delete=models.CASCADE)
@@ -75,12 +74,6 @@ class Message(models.Model):
             }
         return json.dumps(rep)
 
-@receiver(post_save, sender=Message)
-def send_msg_with_websocket(sender, instance, created, **kwargs):
-    if created:
-        Group(instance.league.slug).send({
-            'text': message_websocket_json(instance),
-        })
 
 class Invite(models.Model):
     PERMISSIONS = (
@@ -103,46 +96,4 @@ class Notification(models.Model):
     text = models.CharField(max_length=256)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-@receiver(post_save, sender=Invite)
-def send_new_invite_msg(sender, instance, created, **kwargs):
-    if created:
-        Group(instance.user.username).send({
-            'text': json.dumps({
-                'type': 'invite:new',
-                'content': {}
-            })
-        })
-
-@receiver(post_delete, sender=Membership)
-def send_delete_membership_ws(sender, instance, **kwargs):
-    Group(instance.league.slug).send({
-        'text': json.dumps({
-            'type': 'league:kicked',
-            'content':{
-                'member': instance.user.username,
-                'league_name': instance.league.name,
-                'league_slug': instance.league.slug,
-            }
-        })
-    })
-    Group(instance.user.username).send({
-        'text': json.dumps({
-            'type': 'league:kicked:self',
-            'content': {
-                'league_name': instance.league.name,
-                'league_slug': instance.league.slug,
-            }
-        })
-    })
-
-@receiver(post_save, sender=Notification)
-def send_notification_ws(sender, instance, created, **kwargs):
-    if created:
-        Group('all_notify').send({
-            'text': json.dumps({
-                'type': 'notify:new',
-                'content': {
-                    'text': instance.text,
-                }
-            })
-        })
+import storage.signals
