@@ -8,3 +8,6 @@ class User(AbstractUser):
     
     phone_no = models.CharField(max_length=13, null=True)
     avatar = models.ImageField(upload_to="avatars/", default='avatars/default_avatar.png')
+
+    class Meta:
+        unique_together = ('email',)
