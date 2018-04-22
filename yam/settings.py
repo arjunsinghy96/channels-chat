@@ -146,7 +146,8 @@ MEDIA_ROOT = os.path.join(os.path.dirname(BASE_DIR), 'channels-chat')
 # Redirect url after login
 LOGIN_REDIRECT_URL = '/dashboard/'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "sendgrid_backend.SendgridBackend"
+SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY', '')
 
 LOGIN_URL = '/login/'
 
