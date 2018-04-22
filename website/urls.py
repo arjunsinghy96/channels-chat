@@ -48,4 +48,9 @@ urlpatterns = [
         views.upload_membership_csv,
         name="admin_membership_upload",
     ),
+    path(
+        'admin/upload/leagues/',
+        views.upload_league_csv,
+        name="admin_league_upload",
+    ),
 ]

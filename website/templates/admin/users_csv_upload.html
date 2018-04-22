@@ -21,4 +21,14 @@
     <input type="file" name="membership">
     <input type="submit" class="btn-primary btn-sm" value="Upload">
 </form>
+
+<br>
+
+<h2>Upload League Dataset</h2>
+<p>Upload a csv file with league dataset to create new leagues.</p>
+<p>Make sure you csv have 'league_name'.</p>
+<form action="{% url 'admin_league_upload' %}" method="POST" enctype="multipart/form-data">{% csrf_token %}
+    <input type="file" name="leagues">
+    <input type="submit" class="btn-primary btn-sm" value="Upload">
+</form>
 {% endblock %}

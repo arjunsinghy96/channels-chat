@@ -26,6 +26,29 @@ permissions = {
 
 @staff_member_required
 @require_POST
+def upload_league_csv(request):
+    if request.POST:
+        fieldnames = ['league_name']
+        reader = csv.DictReader(request.FILES['leagues'].read().decode('utf-8').splitlines())
+        errors = []
+        count = 0
+        for row in reader:
+            try:
+                league = League.objects.create(
+                    name=row['league_name'],
+                    slug=slugify(row['league_name'])
+                )
+                count += 1
+            except IntegrityError as e:
+                errors.append(row)
+        return render(request, 'admin/league_csv_uploaded.html', {
+            'count': count,
+            'errors': errors,
+        })
+
+
+@staff_member_required
+@require_POST
 def upload_membership_csv(request):
     if request.POST:
         fieldnames = ['league_name', 'username', 'permissions']
