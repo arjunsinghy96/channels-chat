@@ -1,10 +1,32 @@
 import json
 
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+
 from channels.generic.websockets import WebsocketConsumer
 from channels import Channel, Group
 
 from storage.models import League, Message
 from yam.utils import send_sms
+
+def send_urgent_mail(message):
+    league = League.objects.get(pk=message.content['text']['league_id'])
+    m = Message.objects.get(pk=message.content['text']['message_id'])
+    mail_id_list = []
+    for member in league.members.all():
+        mail_id_list.append(member.email)
+    subject = "Urgent: By {} in {}".format(
+        m.league.name,
+        m.sender.username,
+    )
+    mail_text = "{} Says: {}".format(
+        m.sender.first_name,
+        m.message,
+    )
+    mail_html = render_to_string('website/urgent_mail.html', {
+        'message': m
+    })
+    send_mail(subject, mail_text, "noreply@yam.com", mail_id_list, html_message=mail_html)
 
 def send_sms_with_plivo(message):
     league = League.objects.get(pk=message.content['text']['league_id'])
@@ -52,6 +74,12 @@ class websockets(WebsocketConsumer):
                     )
             if data['urgent']:
                 Channel('plivo').send({
+                    'text': {
+                        'message_id': m.pk,
+                        'league_id': league.pk,
+                    }
+                })
+                Channel('urgent_email').send({
                     'text': {
                         'message_id': m.pk,
                         'league_id': league.pk,
