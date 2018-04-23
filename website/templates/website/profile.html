@@ -120,6 +120,11 @@
     </div>
 
     <div class="row justify-content-center mt-5">
+        {% if user.is_staff %}
+        <div class="col-auto">
+            <a href="{% url 'admin_user_upload' %}" class="btn btn-success hover border-straight">Admin Upload</a>
+        </div>
+        {% endif %}
         <div class="col-auto">
             <a href="{% url 'logout' %}" class="btn btn-danger hover border-straight">Logout</a>
         </div>
