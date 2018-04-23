@@ -45,7 +45,8 @@ $('#id_form_msg_box').on('submit', function(e) {
     }
     socket.send(JSON.stringify(data));
     $('#id_msg_box').val('');
-    urgent.attr('checked', !urgent.attr('checked'))
+    urgent.attr('checked', false)
+    $('#id-bolt').removeClass('text-warning');
     return false;
 });
 
